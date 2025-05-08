@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FoodFlow</string>
+    <string name="welcome_back">¡Bienvenido a FoodFlow!</string>
+    <string name="login_to_continue">Inicia sesión para continuar</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="dont_have_account">¿No tienes una cuenta?</string>
+    <string name="sign_up">Regístrate aquí</string>
+
+    <string name="create_account">Crear Cuenta</string>
+    <string name="full_name">Nombre Completo</string>
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="already_have_account">¿Ya tienes una cuenta?</string>
+</resources>
