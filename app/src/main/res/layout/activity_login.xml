@@ -106,8 +106,8 @@
                 android:textColor="@color/white"
                 app:cornerRadius="12dp" />
 
-            <!-- Texto "Olvidé mi contraseña" -->
-            <TextView
+            <!-- Texto "Olvidé mi contraseña" AÑADIR MÁS TARDE SI PODEMOS-->
+            <!--<TextView
                 android:id="@+id/tvForgotPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,6 +116,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/primary_color"
                 android:textStyle="italic" />
+                -->
 
             <!-- Divider -->
             <View

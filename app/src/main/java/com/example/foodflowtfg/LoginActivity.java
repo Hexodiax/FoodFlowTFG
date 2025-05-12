@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        //tvForgotPassword = findViewById(R.id.tvForgotPassword);
         tvSignUpAction = findViewById(R.id.tvSignUpAction);
 
         // Evento del botón Login
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             } else {
-                //loginUser(email, password);
+                    startActivity(new Intent(this, MainpageActivity.class));
             }
 
         });
@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String email, String password) {
-        // Aquí iría tu lógica de autenticación (Firebase, API, etc.)
         Toast.makeText(this, "Iniciando sesión...", Toast.LENGTH_SHORT).show();
 
         /**
