@@ -2,64 +2,102 @@ package com.example.foodflowtfg;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.text.TextUtils;
+import android.util.Patterns;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import com.example.foodflowtfg.RegisterActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etEmail, etPassword;
+    private TextInputEditText etEmail, etPassword;
     private MaterialButton btnLogin;
-    private TextView tvForgotPassword, tvSignUpAction;
+    private TextView tvSignUp;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Inicializar vistas
+        // Inicializar Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Referencias a los elementos del layout
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        //tvForgotPassword = findViewById(R.id.tvForgotPassword);
-        tvSignUpAction = findViewById(R.id.tvSignUpAction);
+        tvSignUp = findViewById(R.id.tvSignUpAction);
 
-        // Evento del botón Login
+        // Botón de Login
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
-            } else {
-                    startActivity(new Intent(this, MainpageActivity.class));
+            if (validateInputs(email, password)) {
+                loginUser(email, password);
             }
-
         });
-        /**
-         // Evento "Olvidé mi contraseña"
-         tvForgotPassword.setOnClickListener(v -> {
-         startActivity(new Intent(this, ForgotPasswordActivity.class));
-         });
-         **/
-        // Evento "Registrarse"
-        tvSignUpAction.setOnClickListener(v -> {
-            startActivity(new Intent(this, RegisterActivity.class));
+
+        // Texto para ir al Registro
+        tvSignUp.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            finish(); // Opcional: cierra esta actividad para no acumularlas en la pila
         });
     }
 
-    private void loginUser(String email, String password) {
-        Toast.makeText(this, "Iniciando sesión...", Toast.LENGTH_SHORT).show();
+    // Validar campos de entrada
+    private boolean validateInputs(String email, String password) {
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Ingresa tu email");
+            return false;
+        }
 
-        /**
-         * // Ejemplo de redirección después del login:
-         startActivity(new Intent(this, MainActivity.class));
-         finish();
-         **/
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Email no válido");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password) || password.length() < 6) {
+            etPassword.setError("La contraseña debe tener al menos 6 caracteres");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Iniciar sesión con Firebase
+    private void loginUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Toast.makeText(LoginActivity.this, "¡Bienvenido!", Toast.LENGTH_SHORT).show();
+
+                        // Redirigir a la pantalla principal
+                        startActivity(new Intent(LoginActivity.this, MainpageActivity.class));
+                        finish(); // Cierra LoginActivity para que no se pueda volver atrás
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    // Opcional: Verificar si el usuario ya está logueado al abrir la app
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(LoginActivity.this, MainpageActivity.class));
+            finish();
+        }
     }
 }

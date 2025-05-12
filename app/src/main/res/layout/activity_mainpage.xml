@@ -8,24 +8,36 @@
     android:background="@drawable/background_gradient"
     tools:context=".MainpageActivity">
 
-    <!-- Logo -->
+    <!-- Botón de Logout (top-end) -->
+    <ImageButton
+        android:id="@+id/btnLogout"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/white"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Logo (centrado) -->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:src="@drawable/ic_logo_nobg"
         android:layout_marginTop="44dp"
+        android:src="@drawable/ic_logo_nobg"
         app:tint="@color/primary_color"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Título -->
+    <!-- Título (ahora dinámico desde Java) -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bienvenido, chef 👨‍🍳"
         android:textSize="20sp"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -46,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- CardView contenedor -->
+    <!-- CardView contenedor (resto del contenido igual) -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
