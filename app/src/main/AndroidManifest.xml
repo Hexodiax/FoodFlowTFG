@@ -13,6 +13,18 @@
         android:theme="@style/Theme.FoodFlowTFG"
         tools:targetApi="31">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChefAIActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecipesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanningActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainpageActivity"
             android:exported="false" />
         <activity

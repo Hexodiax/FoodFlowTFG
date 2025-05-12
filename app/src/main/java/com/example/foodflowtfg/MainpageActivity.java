@@ -25,32 +25,32 @@ public class MainpageActivity extends AppCompatActivity {
         cardPlanning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainpageActivity.this, PlanningActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainpageActivity.this, PlanningActivity.class);
+                startActivity(intent);
             }
         });
 
         cardRecetas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainpageActivity.this, RecetasActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainpageActivity.this, RecipesActivity.class);
+                startActivity(intent);
             }
         });
 
         cardCocineroIA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainpageActivity.this, CocineroIAActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainpageActivity.this, ChefAIActivity.class);
+                startActivity(intent);
             }
         });
 
         cardSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainpageActivity.this, AjustesActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainpageActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
         });
     }
