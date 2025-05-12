@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainpageActivity extends AppCompatActivity {
 
@@ -16,6 +17,12 @@ public class MainpageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
+
+        // Analytics Event
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("message", "Integración de Firebase completa");
+        analytics.logEvent("InitScreen", bundle);
 
         cardPlanning = findViewById(R.id.cardPlanning);
         cardRecetas = findViewById(R.id.cardRecetas);
