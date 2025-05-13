@@ -13,4 +13,6 @@
     <string name="full_name">Nombre Completo</string>
     <string name="confirm_password">Confirmar Contraseña</string>
     <string name="already_have_account">¿Ya tienes una cuenta?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
