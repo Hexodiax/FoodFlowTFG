@@ -1,6 +1,7 @@
 package com.example.foodflowtfg;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,48 +9,39 @@ import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
 
-import java.util.Arrays;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeBookFragment extends Fragment {
-
-    public RecipeBookFragment() {}
+    private FirebaseFirestore db;
+    private List<Receta> listaRecetas;
+    private RecipesGridAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_book, container, false);
-
         GridView gridView = view.findViewById(R.id.gridViewRecipes);
 
-        // Lista provisional para las recetas
-        List<Integer> recipeBookImages = Arrays.asList(
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1,
-                R.drawable.recipe1
-        );
-
-        // Pasar la lista al adaptador
-        RecipesGridAdapter adapter = new RecipesGridAdapter(requireContext(), recipeBookImages);
+        db = FirebaseFirestore.getInstance();
+        listaRecetas = new ArrayList<>();
+        adapter = new RecipesGridAdapter(requireContext(), listaRecetas);
         gridView.setAdapter(adapter);
+
+        db.collection("recetas").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                listaRecetas.clear();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Receta receta = document.toObject(Receta.class);
+                    listaRecetas.add(receta);
+                }
+                adapter.notifyDataSetChanged();
+            } else {
+                Log.e("Firestore", "Error al cargar recetas", task.getException());
+            }
+        });
 
         return view;
     }

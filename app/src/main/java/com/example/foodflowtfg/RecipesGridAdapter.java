@@ -1,47 +1,52 @@
 package com.example.foodflowtfg;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.view.LayoutInflater;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class RecipesGridAdapter extends BaseAdapter {
+    private Context context;
+    private List<Receta> recetas;
 
-    private final Context context;
-    private final List<Integer> imageIds;
-
-    public RecipesGridAdapter(Context context, List<Integer> imageIds) {
+    public RecipesGridAdapter(Context context, List<Receta> recetas) {
         this.context = context;
-        this.imageIds = imageIds;
+        this.recetas = recetas;
     }
 
     @Override
     public int getCount() {
-        return imageIds.size();
+        return recetas.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return imageIds.get(i);
+    public Object getItem(int position) {
+        return recetas.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup parent) {
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
         }
 
-        ImageView image = view.findViewById(R.id.recipeImage);
-        image.setImageResource(imageIds.get(i));
-        return view;
+        ImageView imageView = convertView.findViewById(R.id.imageRecipe);
+        Glide.with(context)
+                .load(recetas.get(position).getImagenUrl())
+                .placeholder(R.drawable.recipe_placeholder)
+                .error(R.drawable.recipe_error)
+                .into(imageView);
+
+        return convertView;
     }
 }

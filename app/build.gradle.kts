@@ -3,7 +3,6 @@ plugins {
     id("com.google.gms.google-services") version "4.3.15"
 }
 
-
 android {
     namespace = "com.example.foodflowtfg"
     compileSdk = 34
@@ -28,14 +27,16 @@ android {
         }
     }
 
+    // ✅ Aquí se actualiza la compatibilidad con Java 17
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 dependencies {
-
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-analytics")
