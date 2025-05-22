@@ -11,6 +11,8 @@ gridlayout = "1.1.0"
 volley = "1.2.1"
 firebaseFirestore = "25.1.4"
 playServicesMeasurementApi = "22.4.0"
+runtimeAndroid = "1.8.2"
+firebaseStorage = "21.0.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,6 +26,8 @@ gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref =
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 play-services-measurement-api = { group = "com.google.android.gms", name = "play-services-measurement-api", version.ref = "playServicesMeasurementApi" }
+runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -29,8 +29,18 @@
             android:numColumns="3"
             android:verticalSpacing="10dp"
             android:horizontalSpacing="16dp"
-            android:stretchMode="columnWidth" />
-    </com.google.android.material.card.MaterialCardView>
+            android:stretchMode="columnWidth" >
 
+
+        </GridView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:contentDescription="agregar receta"
+            android:src="@drawable/ic_edit" />
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

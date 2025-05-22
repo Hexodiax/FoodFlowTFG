@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodFlowTFG"
         tools:targetApi="31">
-
+        <activity
+            android:name=".AddCustomRecipe"
+            android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
@@ -38,16 +40,13 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 🔽 AÑADE ESTO -->
+        </activity> <!-- 🔽 AÑADE ESTO -->
         <activity
             android:name=".RecipeDetailActivity"
             android:exported="true" />
-        <!-- 🔼 FIN -->
-
     </application>
 
 </manifest>
