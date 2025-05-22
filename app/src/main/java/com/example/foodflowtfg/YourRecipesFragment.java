@@ -33,7 +33,7 @@ public class YourRecipesFragment extends Fragment {
         adapter = new RecipesGridAdapter(requireContext(), listaRecetas);
         gridView.setAdapter(adapter);
 
-        db.collection("recetas")  // O la colección que corresponda
+        db.collection("recetas_personalizadas")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
