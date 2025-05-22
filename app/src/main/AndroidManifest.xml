@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos necesarios -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,39 +17,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodFlowTFG"
         tools:targetApi="31">
-        <activity
-            android:name=".AddCustomRecipe"
-            android:exported="false" />
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChefAIActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RecipesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PlanningActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainpageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true">
+
+        <!-- FileProvider para usar la cámara -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".AddCustomRecipe" android:exported="false" />
+        <activity android:name=".SettingsActivity" android:exported="false" />
+        <activity android:name=".ChefAIActivity" android:exported="false" />
+        <activity android:name=".RecipesActivity" android:exported="false" />
+        <activity android:name=".PlanningActivity" android:exported="false" />
+        <activity android:name=".MainpageActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 🔽 AÑADE ESTO -->
-        <activity
-            android:name=".RecipeDetailActivity"
-            android:exported="true" />
+        </activity>
+        <activity android:name=".RecipeDetailActivity" android:exported="true" />
     </application>
 
 </manifest>

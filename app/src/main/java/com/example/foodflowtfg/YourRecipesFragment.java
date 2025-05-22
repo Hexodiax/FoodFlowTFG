@@ -12,6 +12,7 @@ import android.widget.GridView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -24,6 +25,8 @@ public class YourRecipesFragment extends Fragment {
     private List<Receta> listaRecetas;
     private RecipesGridAdapter adapter;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,7 +38,10 @@ public class YourRecipesFragment extends Fragment {
         adapter = new RecipesGridAdapter(requireContext(), listaRecetas);
         gridView.setAdapter(adapter);
 
+        String userIdActual = FirebaseAuth.getInstance().getCurrentUser().getUid(); // 🔑 Usuario actual
+
         db.collection("recetas_personalizadas")
+                .whereEqualTo("userId", userIdActual) // ✅ FILTRO POR USUARIO
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -49,6 +55,7 @@ public class YourRecipesFragment extends Fragment {
                         Log.e("Firestore", "Error al cargar recetas", task.getException());
                     }
                 });
+
         gridView.setOnItemClickListener((parent, view1, position, id) -> {
             Receta recetaSeleccionada = listaRecetas.get(position);
 
@@ -61,16 +68,12 @@ public class YourRecipesFragment extends Fragment {
         });
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddCustomRecipe.class);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), AddCustomRecipe.class);
+            startActivity(intent);
         });
 
         return view;
     }
-
 
 }
