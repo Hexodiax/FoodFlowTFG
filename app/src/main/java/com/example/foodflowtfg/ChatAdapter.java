@@ -62,7 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView geminiText;
         public GeminiViewHolder(@NonNull View itemView) {
             super(itemView);
-            geminiText = itemView.findViewById(R.id.geminiText);
+            geminiText = itemView.findViewById(R.id.iaText);
         }
     }
 }

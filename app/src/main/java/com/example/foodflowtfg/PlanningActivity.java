@@ -1,5 +1,6 @@
 package com.example.foodflowtfg;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.widget.TextView;
@@ -87,8 +88,15 @@ public class PlanningActivity extends AppCompatActivity {
         setComidaConFormato(lunchText, "🍝", "Comida", "Texto de la comida");
         setComidaConFormato(dinnerText, "🥗", "Cena", "Texto de la cena");
 
-        // Actualizar la parte superior con fecha y día
         actualizarTextoPlanningActual(new Date());
+
+        findViewById(R.id.currentPlanningCard).setOnClickListener(view -> {
+            Intent intent = new Intent(PlanningActivity.this, CurrentPlanDetailActivity.class);
+            intent.putExtra("plan_day", diaPlanningActual.getText().toString());
+            intent.putExtra("Plan_actual", nombrePlanningActual.getText().toString());
+            startActivity(intent);
+        });
+
     }
 
     private void actualizarTextoPlanningActual(Date fecha) {
@@ -113,7 +121,6 @@ public class PlanningActivity extends AppCompatActivity {
         diaPlanningActual.setText(diaSemana);
     }
 
-
     private void setComidaConFormato(TextView textView, String emoji, String tipoComida, String nombreReceta) {
         String textoCompleto = emoji + " " + tipoComida + ": " + nombreReceta;
         SpannableString spannable = new SpannableString(textoCompleto);
@@ -124,4 +131,5 @@ public class PlanningActivity extends AppCompatActivity {
 
         textView.setText(spannable);
     }
+
 }

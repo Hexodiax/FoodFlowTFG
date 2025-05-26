@@ -52,7 +52,7 @@
             android:src="@android:drawable/ic_menu_send"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Enviar mensaje"
-            android:tint="@android:color/holo_blue_dark" />
+            android:tint="@android:color/holo_red_dark" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

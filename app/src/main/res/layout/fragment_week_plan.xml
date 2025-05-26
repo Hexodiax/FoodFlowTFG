@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="0dp"
+        android:backgroundTint="@color/button"
+        app:cardElevation="8dp"
+        app:shapeAppearance="@style/CardViewTopRounded"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/gray_300">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre del Plan"
+                android:textColor="@color/black80text"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnMonday"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Lunes"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:backgroundTint="#FF6F61"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:padding="12dp"/>
+
+            <Button
+                android:id="@+id/btnTuesday"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Martes"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:backgroundTint="#6B5B95"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnWednesday"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Miércoles"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:backgroundTint="#88B04B"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnThursday"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Jueves"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:backgroundTint="#F7CAC9"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnFriday"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Viernes"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:backgroundTint="#92A8D1"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnSaturday"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Sábado"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:backgroundTint="#955251"
+                android:layout_marginBottom="8dp"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnSunday"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Domingo"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:backgroundTint="#B565A7"
+                android:elevation="4dp"
+                android:stateListAnimator="@null"
+                android:padding="12dp" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
