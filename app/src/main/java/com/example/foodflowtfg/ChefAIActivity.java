@@ -37,7 +37,7 @@ public class ChefAIActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chef_aiactivity); // el XML que ya tienes
+        setContentView(R.layout.activity_chef_aiactivity);
 
         chatRecyclerView = findViewById(R.id.chatRecyclerView);
         messageEditText = findViewById(R.id.messageEditText);
@@ -56,7 +56,7 @@ public class ChefAIActivity extends AppCompatActivity {
         sendButton.setOnClickListener(v -> {
             String text = messageEditText.getText().toString().trim();
             if (!text.isEmpty()) {
-                addMessage(new Message(text, true)); // Mensaje del usuario
+                addMessage(new Message(text, true));
                 messageEditText.setText("");
 
                 // Aquí llamas a la API de Gemini
@@ -104,7 +104,12 @@ public class ChefAIActivity extends AppCompatActivity {
                 conn.setDoOutput(true);
 
                 // Construir JSON
-                String jsonInput = "{ \"contents\": [ { \"parts\": [ { \"text\": \"" + userInput + "\" } ] } ] }";
+                String systemPrompt = "Eres ChefAI, un chef experto, divertido y cercano. Responde con entusiasmo, usa emojis y habla como si fueras un amigo que adora cocinar. Da consejos útiles y haz que cocinar parezca fácil y divertido.";
+
+                String jsonInput = "{ \"contents\": [ " +
+                        "{ \"role\": \"user\", \"parts\": [ { \"text\": \"" + systemPrompt + "\" } ] }, " +
+                        "{ \"role\": \"user\", \"parts\": [ { \"text\": \"" + userInput + "\" } ] } " +
+                        "] }";
 
                 // Enviar datos
                 try (OutputStream os = conn.getOutputStream()) {

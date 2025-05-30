@@ -171,7 +171,7 @@ public class AddCustomRecipe extends AppCompatActivity {
         receta.put("ingredientes", ingredientes);
         receta.put("pasos", pasos);
         receta.put("imagenUrl", imageUrl);
-        receta.put("userId", userId); // Añadir el ID del usuario
+        receta.put("userId", userId);
 
         FirebaseFirestore.getInstance()
                 .collection("recetas_personalizadas")
