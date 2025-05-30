@@ -31,7 +31,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- COMIDA -->
                 <TextView
+                    android:id="@+id/txtComida"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Comida"
@@ -41,13 +43,16 @@
                     android:layout_marginBottom="8dp"/>
 
                 <ImageView
+                    android:id="@+id/imgComida"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:src="@drawable/recipe_error"
                     android:scaleType="centerCrop"
                     android:layout_marginBottom="16dp"/>
 
+                <!-- CENA -->
                 <TextView
+                    android:id="@+id/txtCena"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cena"
@@ -57,6 +62,7 @@
                     android:layout_marginBottom="8dp"/>
 
                 <ImageView
+                    android:id="@+id/imgCena"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:src="@drawable/recipe_error"

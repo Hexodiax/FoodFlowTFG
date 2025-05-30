@@ -177,12 +177,22 @@ public class AddCustomRecipe extends AppCompatActivity {
                 .collection("recetas_personalizadas")
                 .add(receta)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Receta guardada correctamente", Toast.LENGTH_SHORT).show();
-                    finish();
+                    String id = documentReference.getId();
+                    // Actualizamos el campo "id" en el mismo documento
+                    documentReference.update("id", id)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this, "Receta guardada correctamente", Toast.LENGTH_SHORT).show();
+                                finish();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Error al actualizar ID de la receta", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            });
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error al guardar receta", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 });
     }
+
 }

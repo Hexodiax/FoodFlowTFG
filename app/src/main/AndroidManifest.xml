@@ -17,9 +17,14 @@
         android:theme="@style/Theme.FoodFlowTFG"
         tools:targetApi="31">
         <activity
-            android:name=".CurrentPlanDetailActivity"
+            android:name=".SelectRecipeActivity"
             android:exported="false" />
-        <!-- FileProvider para usar la cámara -->
+        <activity
+            android:name=".CreatePlanningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CurrentPlanDetailActivity"
+            android:exported="false" /> <!-- FileProvider para usar la cámara -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

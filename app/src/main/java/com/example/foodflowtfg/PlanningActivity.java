@@ -3,12 +3,17 @@ package com.example.foodflowtfg;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +87,7 @@ public class PlanningActivity extends AppCompatActivity {
 
         recyclerOtrosPlannings.setLayoutManager(new LinearLayoutManager(this));
         recyclerOtrosPlannings.setAdapter(adaptador);
-
+        cargarPlanningsDesdeFirestore();
         // Set comidas con formato
         setComidaConFormato(breakfastText, "🥐", "Desayuno", "Texto del desayuno");
         setComidaConFormato(lunchText, "🍝", "Comida", "Texto de la comida");
@@ -96,7 +101,10 @@ public class PlanningActivity extends AppCompatActivity {
             intent.putExtra("Plan_actual", nombrePlanningActual.getText().toString());
             startActivity(intent);
         });
-
+        findViewById(R.id.fabAddPlanning).setOnClickListener(view -> {
+            Intent intent = new Intent(PlanningActivity.this, CreatePlanningActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void actualizarTextoPlanningActual(Date fecha) {
@@ -119,6 +127,33 @@ public class PlanningActivity extends AppCompatActivity {
         String diaSemana = formatoDiaSemana.format(fecha);
         diaSemana = diaSemana.substring(0, 1).toUpperCase() + diaSemana.substring(1);
         diaPlanningActual.setText(diaSemana);
+    }
+    private void cargarPlanningsDesdeFirestore() {
+        String userIdActual = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("plannings")
+                .whereEqualTo("userId", userIdActual)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        listaDePlannings.clear(); // limpia la lista actual
+                        // Opcional: si quieres mantener los ejemplos, coméntalo
+
+                        // Si quieres mantener ejemplos, puedes hacer:
+                        // listaDePlannings.addAll(Arrays.asList("Semana de desfase", "Semana Vegetariana", "Plan Bajo en Carbohidratos"));
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String nombrePlan = document.getString("nombre");
+                            if (nombrePlan != null && !listaDePlannings.contains(nombrePlan)) {
+                                listaDePlannings.add(nombrePlan);
+                            }
+                        }
+                        adaptador.notifyDataSetChanged();
+                    } else {
+                        Log.e("Firestore", "Error al cargar plannings", task.getException());
+                    }
+                });
     }
 
     private void setComidaConFormato(TextView textView, String emoji, String tipoComida, String nombreReceta) {

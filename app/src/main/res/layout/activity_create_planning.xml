@@ -1,0 +1,88 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear Nuevo Planning"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp" />
+        <EditText
+            android:id="@+id/editTextPlanningName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del planning"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"/>
+        <!-- Día: Lunes -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp">
+            <TextView android:text="Lunes" android:textStyle="bold" android:textSize="18sp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/comida_Lunes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar comida" android:padding="8dp" android:background="#EFEFEF" />
+            <TextView android:id="@+id/cena_Lunes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar cena" android:padding="8dp" android:background="#EFEFEF" />
+        </LinearLayout>
+
+        <!-- Día: Martes -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+            <TextView android:text="Martes" android:textStyle="bold" android:textSize="18sp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/comida_Martes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar comida" android:padding="8dp" android:background="#EFEFEF" />
+            <TextView android:id="@+id/cena_Martes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar cena" android:padding="8dp" android:background="#EFEFEF" />
+        </LinearLayout>
+
+        <!-- Día: Miércoles -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+            <TextView android:text="Miércoles" android:textStyle="bold" android:textSize="18sp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/comida_Miercoles" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar comida" android:padding="8dp" android:background="#EFEFEF" />
+            <TextView android:id="@+id/cena_Miercoles" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar cena" android:padding="8dp" android:background="#EFEFEF" />
+        </LinearLayout>
+
+        <!-- Día: Jueves -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+            <TextView android:text="Jueves" android:textStyle="bold" android:textSize="18sp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/comida_Jueves" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar comida" android:padding="8dp" android:background="#EFEFEF" />
+            <TextView android:id="@+id/cena_Jueves" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar cena" android:padding="8dp" android:background="#EFEFEF" />
+        </LinearLayout>
+
+        <!-- Día: Viernes -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+            <TextView android:text="Viernes" android:textStyle="bold" android:textSize="18sp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/comida_Viernes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar comida" android:padding="8dp" android:background="#EFEFEF" />
+            <TextView android:id="@+id/cena_Viernes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar cena" android:padding="8dp" android:background="#EFEFEF" />
+        </LinearLayout>
+
+        <!-- Día: Sábado -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+            <TextView android:text="Sábado" android:textStyle="bold" android:textSize="18sp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/comida_Sabado" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar comida" android:padding="8dp" android:background="#EFEFEF" />
+            <TextView android:id="@+id/cena_Sabado" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar cena" android:padding="8dp" android:background="#EFEFEF" />
+        </LinearLayout>
+
+        <!-- Día: Domingo -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+            <TextView android:text="Domingo" android:textStyle="bold" android:textSize="18sp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/comida_Domingo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar comida" android:padding="8dp" android:background="#EFEFEF" />
+            <TextView android:id="@+id/cena_Domingo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seleccionar cena" android:padding="8dp" android:background="#EFEFEF" />
+        </LinearLayout>
+
+        <!-- Botón Guardar -->
+        <Button
+            android:id="@+id/btnGuardarPlanning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar Planning"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>
