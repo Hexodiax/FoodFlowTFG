@@ -7,17 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class TodayPlanFragment extends Fragment {
@@ -27,154 +24,128 @@ public class TodayPlanFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_today_plan, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initializeViews(view);
+        resetViews();
+        loadPlanData();
+    }
 
+    private void initializeViews(View view) {
         txtComida = view.findViewById(R.id.txtComida);
         txtCena = view.findViewById(R.id.txtCena);
         imgComida = view.findViewById(R.id.imgComida);
         imgCena = view.findViewById(R.id.imgCena);
+    }
 
+    private void resetViews() {
+        txtComida.setText("🍝 Comida: No asignada");
+        txtCena.setText("🥗 Cena: No asignada");
+        imgComida.setImageResource(R.drawable.recipe_placeholder);
+        imgCena.setImageResource(R.drawable.recipe_placeholder);
+    }
+
+    private void loadPlanData() {
         Bundle args = getArguments();
-        if (args == null) {
-            Log.e("TodayPlanFragment", "No se recibieron argumentos");
-            return;
-        }
+        if (args == null) return;
 
         String nombrePlan = args.getString("nombrePlan");
         String diaPlan = args.getString("diaPlan");
 
-        if (nombrePlan == null || diaPlan == null) {
-            Log.e("TodayPlanFragment", "nombrePlan o diaPlan son null");
-            return;
+        if (nombrePlan != null && diaPlan != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            db.collection("plannings")
+                    .whereEqualTo("userId", userId)
+                    .whereEqualTo("nombre", nombrePlan)
+                    .limit(1)
+                    .get()
+                    .addOnSuccessListener(querySnapshot -> {
+                        if (!querySnapshot.isEmpty()) {
+                            DocumentSnapshot plan = querySnapshot.getDocuments().get(0);
+                            Map<String, Object> diaData = (Map<String, Object>) plan.get(diaPlan);
+                            if (diaData != null) {
+                                processMeal(diaData.get("comida"), txtComida, imgComida, "🍝 Comida: ");
+                                processMeal(diaData.get("cena"), txtCena, imgCena, "🥗 Cena: ");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.e("TodayPlanFragment", "Error loading plan", e));
         }
+    }
 
+    private void processMeal(Object mealData, TextView textView, ImageView imageView, String prefix) {
+        if (mealData instanceof Map) {
+            Map<String, Object> meal = (Map<String, Object>) mealData;
+            String nombre = (String) meal.get("nombre");
+            String id = (String) meal.get("id");
+
+            textView.setText(prefix + (nombre != null ? nombre : "No asignada"));
+            if (id != null && !id.isEmpty()) {
+                loadRecipeImage(id, imageView);
+            } else {
+                imageView.setImageResource(R.drawable.recipe_error);
+            }
+        }
+    }
+
+    private void loadRecipeImage(String recipeId, ImageView imageView) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        db.collection("plannings")
-                .whereEqualTo("userId", userId)
-                .whereEqualTo("nombre", nombrePlan)
-                .limit(1)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (!querySnapshot.isEmpty()) {
-                        DocumentSnapshot doc = querySnapshot.getDocuments().get(0);
-
-                        Object rawDiaData = doc.get(diaPlan);
-                        Log.d("TodayPlanFragment", "Datos para día " + diaPlan + ": " + rawDiaData);
-
-                        Map<String, Object> diaData;
-
-                        if (rawDiaData instanceof Map) {
-                            diaData = (Map<String, Object>) rawDiaData;
+        db.collection("recetas").document(recipeId).get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        String imageUrl = document.getString("imagenUrl");
+                        if (imageUrl != null && !imageUrl.isEmpty()) {
+                            loadImageWithGlide(imageUrl, imageView);
                         } else {
-                            // Si el dato no es un Map, crear un mapa vacío para evitar errores
-                            Log.w("TodayPlanFragment", "El campo para " + diaPlan + " no es un Map. Valor: " + rawDiaData);
-                            diaData = new HashMap<>();
+                            checkCustomRecipes(db, recipeId, imageView);
                         }
-
-                        // Procesar comida
-                        Object comidaObj = diaData.get("comida");
-                        if (comidaObj instanceof Map) {
-                            Map<String, Object> comidaMap = (Map<String, Object>) comidaObj;
-                            String comidaNombre = (String) comidaMap.get("nombre");
-                            String comidaId = (String) comidaMap.get("id");
-
-                            txtComida.setText(comidaNombre != null ? "🍝 Comida: " + comidaNombre : "🍝 Comida: No asignada");
-                            cargarImagenReceta(db, comidaId, imgComida);
-                        } else {
-                            txtComida.setText("🍝 Comida: No asignada");
-                            imgComida.setImageResource(R.drawable.recipe_error);
-                        }
-
-                        // Procesar cena
-                        Object cenaObj = diaData.get("cena");
-                        if (cenaObj instanceof Map) {
-                            Map<String, Object> cenaMap = (Map<String, Object>) cenaObj;
-                            String cenaNombre = (String) cenaMap.get("nombre");
-                            String cenaId = (String) cenaMap.get("id");
-
-                            txtCena.setText(cenaNombre != null ? "🥗 Cena: " + cenaNombre : "🥗 Cena: No asignada");
-                            cargarImagenReceta(db, cenaId, imgCena);
-                        } else {
-                            txtCena.setText("🥗 Cena: No asignada");
-                            imgCena.setImageResource(R.drawable.recipe_error);
-                        }
-
                     } else {
-                        Log.e("TodayPlanFragment", "No se encontró el planning");
-                        txtComida.setText("🍝 Comida: No asignada");
-                        txtCena.setText("🥗 Cena: No asignada");
-                        imgComida.setImageResource(R.drawable.recipe_error);
-                        imgCena.setImageResource(R.drawable.recipe_error);
+                        checkCustomRecipes(db, recipeId, imageView);
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("TodayPlanFragment", "Error al obtener el planning", e);
-                    txtComida.setText("🍝 Comida: Error");
-                    txtCena.setText("🥗 Cena: Error");
-                    imgComida.setImageResource(R.drawable.recipe_error);
-                    imgCena.setImageResource(R.drawable.recipe_error);
+                    Log.e("TodayPlanFragment", "Error loading recipe", e);
+                    checkCustomRecipes(db, recipeId, imageView);
                 });
     }
 
-    private void cargarImagenReceta(FirebaseFirestore db, String recetaId, ImageView imageView) {
-        if (recetaId == null || recetaId.isEmpty()) {
-            imageView.setImageResource(R.drawable.recipe_error);
-            return;
-        }
-
-        // Buscar en recetas_personalizadas por campo "id"
+    private void checkCustomRecipes(FirebaseFirestore db, String recipeId, ImageView imageView) {
         db.collection("recetas_personalizadas")
-                .whereEqualTo("id", recetaId)
+                .whereEqualTo("id", recipeId)
                 .limit(1)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     if (!querySnapshot.isEmpty()) {
-                        DocumentSnapshot doc = querySnapshot.getDocuments().get(0);
-                        String imagenUrl = doc.getString("imagenUrl");
-                        if (imagenUrl != null && !imagenUrl.isEmpty()) {
-                            Glide.with(requireContext()).load(imagenUrl).into(imageView);
+                        String imageUrl = querySnapshot.getDocuments().get(0).getString("imagenUrl");
+                        if (imageUrl != null && !imageUrl.isEmpty()) {
+                            loadImageWithGlide(imageUrl, imageView);
                         } else {
                             imageView.setImageResource(R.drawable.recipe_error);
                         }
                     } else {
-                        // Si no está en recetas_personalizadas, buscar en recetas generales
-                        db.collection("recetas")
-                                .whereEqualTo("id", recetaId)
-                                .limit(1)
-                                .get()
-                                .addOnSuccessListener(qs -> {
-                                    if (!qs.isEmpty()) {
-                                        DocumentSnapshot doc = qs.getDocuments().get(0);
-                                        String imagenUrl = doc.getString("imagen");
-                                        if (imagenUrl != null && !imagenUrl.isEmpty()) {
-                                            Glide.with(requireContext()).load(imagenUrl).into(imageView);
-                                        } else {
-                                            imageView.setImageResource(R.drawable.recipe_error);
-                                        }
-                                    } else {
-                                        imageView.setImageResource(R.drawable.recipe_error);
-                                    }
-                                })
-                                .addOnFailureListener(e -> {
-                                    imageView.setImageResource(R.drawable.recipe_error);
-                                    Log.e("TodayPlanFragment", "Error al buscar receta general", e);
-                                });
+                        imageView.setImageResource(R.drawable.recipe_error);
                     }
                 })
                 .addOnFailureListener(e -> {
+                    Log.e("TodayPlanFragment", "Error loading custom recipe", e);
                     imageView.setImageResource(R.drawable.recipe_error);
-                    Log.e("TodayPlanFragment", "Error al buscar receta personalizada", e);
                 });
     }
 
+    private void loadImageWithGlide(String imageUrl, ImageView imageView) {
+        Glide.with(this)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.recipe_placeholder)
+                .error(R.drawable.recipe_error)
+                .into(imageView);
+    }
 }

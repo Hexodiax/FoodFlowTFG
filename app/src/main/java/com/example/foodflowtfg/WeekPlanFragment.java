@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,7 +17,6 @@ public class WeekPlanFragment extends Fragment {
         super(R.layout.fragment_week_plan);
     }
 
-    // Interfaz para comunicar el día seleccionado a la Activity
     public interface OnDiaSeleccionadoListener {
         void onDiaSeleccionado(String dia);
     }
@@ -46,21 +44,29 @@ public class WeekPlanFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnMonday = view.findViewById(R.id.btnMonday);
-        Button btnTuesday = view.findViewById(R.id.btnTuesday);
-        Button btnWednesday = view.findViewById(R.id.btnWednesday);
-        Button btnThursday = view.findViewById(R.id.btnThursday);
-        Button btnFriday = view.findViewById(R.id.btnFriday);
-        Button btnSaturday = view.findViewById(R.id.btnSaturday);
-        Button btnSunday = view.findViewById(R.id.btnSunday);
+        setupDayButton(view, R.id.btnMonday, "Lunes");
+        setupDayButton(view, R.id.btnTuesday, "Martes");
+        setupDayButton(view, R.id.btnWednesday, "Miércoles");
+        setupDayButton(view, R.id.btnThursday, "Jueves");
+        setupDayButton(view, R.id.btnFriday, "Viernes");
+        setupDayButton(view, R.id.btnSaturday, "Sábado");
+        setupDayButton(view, R.id.btnSunday, "Domingo");
+    }
 
-        btnMonday.setOnClickListener(v -> notificarDiaSeleccionado("Lunes"));
-        btnTuesday.setOnClickListener(v -> notificarDiaSeleccionado("Martes"));
-        btnWednesday.setOnClickListener(v -> notificarDiaSeleccionado("Miércoles"));
-        btnThursday.setOnClickListener(v -> notificarDiaSeleccionado("Jueves"));
-        btnFriday.setOnClickListener(v -> notificarDiaSeleccionado("Viernes"));
-        btnSaturday.setOnClickListener(v -> notificarDiaSeleccionado("Sábado"));
-        btnSunday.setOnClickListener(v -> notificarDiaSeleccionado("Domingo"));
+    private void setupDayButton(View view, int buttonId, String dayName) {
+        Button button = view.findViewById(buttonId);
+
+        // Click normal para mostrar las recetas del día
+        button.setOnClickListener(v -> notificarDiaSeleccionado(dayName));
+
+        // Long click para marcar el día como completado
+        button.setOnLongClickListener(v -> {
+            if (getActivity() instanceof CurrentPlanDetailActivity) {
+                ((CurrentPlanDetailActivity)getActivity()).mostrarDialogoCompletarDia(dayName);
+                return true;
+            }
+            return false;
+        });
     }
 
     private void notificarDiaSeleccionado(String dia) {

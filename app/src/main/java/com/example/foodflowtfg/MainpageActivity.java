@@ -1,21 +1,28 @@
 package com.example.foodflowtfg;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainpageActivity extends AppCompatActivity {
+
+    private static final int PERMISSION_REQUEST_CODE = 100;
 
     private MaterialCardView cardPlanning, cardRecetas, cardCocineroIA, cardSettings;
     private ImageButton btnLogout;
@@ -27,7 +34,11 @@ public class MainpageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        NotificationHelper.createNotificationChannel(this);
         setContentView(R.layout.activity_mainpage);
+
+        // Solicitar permiso de notificaciones si es necesario
+        requestNotificationPermission();
 
         // Inicializar Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -53,6 +64,33 @@ public class MainpageActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("message", "Pantalla principal cargada");
         analytics.logEvent("MainScreenLoaded", bundle);
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        PERMISSION_REQUEST_CODE
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido (puedes registrar evento, mostrar mensaje, etc.)
+            } else {
+                // Permiso denegado
+                Toast.makeText(this, "Las notificaciones estarán desactivadas", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void loadUserData() {

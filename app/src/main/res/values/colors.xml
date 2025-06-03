@@ -6,6 +6,9 @@
     <color name="gray_300">#E0E0E0</color>
     <color name="button">#E9E7E7</color>
     <color name="gray_600">#757575</color>
+    <color name="completed_day">#4CAF50</color>
+    <color name="uncompleted_day">#2196F3</color>
+    <color name="green_completed">#4CAF50</color> <!-- Puedes poner el código hexadecimal que prefieras -->
     <color name="primary_color">#FF6B6B</color> <!-- Rojo coral -->
     <color name="gradient_start">#FF9A9E</color> <!-- Degradado rojo -->
     <color name="gradient_end">#FAD0C4</color>  <!-- Degradado naranja claro -->

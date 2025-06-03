@@ -14,12 +14,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CreatePlanningActivity extends AppCompatActivity {
 
-    // Día → Tipo (comida/cena) → Datos (nombre, id)
+
     private final Map<String, Map<String, Map<String, String>>> planningMap = new HashMap<>();
     private final String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
 
@@ -47,7 +57,6 @@ public class CreatePlanningActivity extends AppCompatActivity {
                 Log.e("CreatePlanningActivity", "cena_" + dia + " es null");
             }
 
-            // Inicializar el mapa para el día
             planningMap.put(dia, new HashMap<>());
         }
 
@@ -104,6 +113,9 @@ public class CreatePlanningActivity extends AppCompatActivity {
         Map<String, Object> planningData = new HashMap<>();
         planningData.put("userId", userId);
         planningData.put("nombre", nombrePlanning);
+        planningData.put("diasCompletados", new HashMap<String, Boolean>());
+
+        planningData.put("diasCompletados", new HashMap<String, Boolean>());
 
         for (String dia : dias) {
             Map<String, Object> comidasDia = new HashMap<>();
@@ -123,9 +135,100 @@ public class CreatePlanningActivity extends AppCompatActivity {
 
         db.collection("plannings")
                 .add(planningData)
-                .addOnSuccessListener(documentReference ->
-                        Toast.makeText(this, "Planning guardado", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(this, "Planning guardado", Toast.LENGTH_SHORT).show();
+
+                    generateMotivationalMessage(nombrePlanning);
+
+                    setResult(RESULT_OK);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show();
+                });
     }
-}
+
+
+    private void generateMotivationalMessage(String planningName) {
+        new Thread(() -> {
+            try {
+                String apiKey = "AIzaSyA6c2dNuktVNNLZ0wA0G0o6cUhQyTIBHt4";
+                String modelName = "gemini-2.0-flash";
+                String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/" + modelName + ":generateContent?key=" + apiKey;
+
+                URL url = new URL(endpoint);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
+
+                String prompt = "Genera un mensaje corto (máximo 50 palabras) motivacional y alegre " +
+                        "para felicitar a un usuario por completar su planificación semanal de comidas '" +
+                        planningName + "'. Usa emojis y un tono cercano. Ejemplo: '¡Plan completado con éxito! 🎉 " +
+                        "Esta semana vas a comer como un rey/una reina. ¡A por todas! 👨‍🍳👩‍🍳'";
+
+                String jsonInput = "{ \"contents\": [ " +
+                        "{ \"role\": \"user\", \"parts\": [ { \"text\": \"" + prompt + "\" } ] } " +
+                        "] }";
+
+                try (OutputStream os = conn.getOutputStream()) {
+                    byte[] input = jsonInput.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+
+                int code = conn.getResponseCode();
+                InputStream inputStream = (code >= 200 && code < 300) ? conn.getInputStream() : conn.getErrorStream();
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+                StringBuilder response = new StringBuilder();
+                String responseLine;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+
+                String responseText = parseGeminiResponse(response.toString());
+
+
+                runOnUiThread(() -> {
+                    NotificationHelper.showNotification(
+                            CreatePlanningActivity.this,
+                            "¡Planificación completada!",
+                            responseText
+                    );
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                runOnUiThread(() -> {
+                    NotificationHelper.showNotification(
+                            CreatePlanningActivity.this,
+                            "¡Planificación completada!",
+                            "¡Felicidades por completar tu planificación semanal! 🎉 Estás un paso más cerca de tus objetivos. 👨‍🍳"
+                    );
+                });
+            }
+        }).start();
+    }
+
+    private String parseGeminiResponse(String json) {
+        try {
+            JSONObject root = new JSONObject(json);
+            JSONArray candidates = root.getJSONArray("candidates");
+            if (candidates.length() > 0) {
+                JSONObject firstCandidate = candidates.getJSONObject(0);
+                JSONObject content = firstCandidate.getJSONObject("content");
+                JSONArray parts = content.getJSONArray("parts");
+                if (parts.length() > 0) {
+                    JSONObject firstPart = parts.getJSONObject(0);
+                    return firstPart.getString("text");
+                }
+            }
+            return "¡Planificación guardada con éxito! 🎉";
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "¡Buen trabajo completando tu planificación! 👏";
+        }
+    }}
