@@ -6,4 +6,5 @@
         <item name="backgroundTint">@color/green_completed</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
 </resources>

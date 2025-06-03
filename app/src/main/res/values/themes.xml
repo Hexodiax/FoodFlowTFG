@@ -1,8 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.FoodFlowTFG" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.FoodFlowTFG" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Barra de estado -->
+        <item name="android:statusBarColor">@android:color/white</item>
+        <!-- Iconos claros -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
-    <style name="Theme.FoodFlowTFG" parent="Base.Theme.FoodFlowTFG" />
+
     <style name="CardViewTopRounded" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">20dp</item>

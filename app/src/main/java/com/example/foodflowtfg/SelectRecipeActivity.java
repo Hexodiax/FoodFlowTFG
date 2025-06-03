@@ -16,7 +16,7 @@ import java.util.List;
 
 public class SelectRecipeActivity extends AppCompatActivity {
 
-    private List<Receta> listaRecetas = new ArrayList<>();
+    private List<Recipe> listaRecipes = new ArrayList<>();
     private RecipesGridAdapter adapter;
     private String dia, tipo;
 
@@ -32,7 +32,7 @@ public class SelectRecipeActivity extends AppCompatActivity {
         tipo = getIntent().getStringExtra("tipo");
 
         GridView gridView = findViewById(R.id.gridViewRecipesSelect);
-        adapter = new RecipesGridAdapter(this, listaRecetas);
+        adapter = new RecipesGridAdapter(this, listaRecipes);
         gridView.setAdapter(adapter);
 
         String userIdActual = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -43,9 +43,9 @@ public class SelectRecipeActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Receta receta = document.toObject(Receta.class);
-                            receta.setId(document.getId());
-                            listaRecetas.add(receta);
+                            Recipe recipe = document.toObject(Recipe.class);
+                            recipe.setId(document.getId());
+                            listaRecipes.add(recipe);
                         }
                     } else {
                         Log.e("Firestore", "Error al cargar recetas personalizadas", task.getException());
@@ -59,9 +59,9 @@ public class SelectRecipeActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Receta receta = document.toObject(Receta.class);
-                            receta.setId(document.getId());
-                            listaRecetas.add(receta);
+                            Recipe recipe = document.toObject(Recipe.class);
+                            recipe.setId(document.getId());
+                            listaRecipes.add(recipe);
                         }
                     } else {
                         Log.e("Firestore", "Error al cargar recetas generales", task.getException());
@@ -71,10 +71,10 @@ public class SelectRecipeActivity extends AppCompatActivity {
                 });
 
         gridView.setOnItemClickListener((parent, view, position, id) -> {
-            Receta receta = listaRecetas.get(position);
+            Recipe recipe = listaRecipes.get(position);
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("nombreReceta", receta.getNombre());
-            resultIntent.putExtra("idReceta", receta.getId()); // ✅ Enviamos ID
+            resultIntent.putExtra("nombreReceta", recipe.getNombre());
+            resultIntent.putExtra("idReceta", recipe.getId()); // ✅ Enviamos ID
             resultIntent.putExtra("dia", dia);
             resultIntent.putExtra("tipo", tipo);
             setResult(RESULT_OK, resultIntent);

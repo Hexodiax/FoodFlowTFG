@@ -21,54 +21,75 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:strokeColor="@color/gray_300">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:padding="16dp">
 
-            <LinearLayout
+            <!-- Día de la semana -->
+            <TextView
+                android:id="@+id/tvDayOfWeek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="Lunes"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:layout_marginBottom="12dp" />
 
-                <!-- COMIDA -->
-                <TextView
-                    android:id="@+id/txtComida"
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Comida"
-                    android:textColor="@color/black80text"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginBottom="8dp"/>
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imgComida"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/recipe_error"
-                    android:scaleType="centerCrop"
-                    android:layout_marginBottom="16dp"/>
+                    <!-- COMIDA -->
+                    <TextView
+                        android:id="@+id/txtComida"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Comida"
+                        android:textColor="@color/black80text"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="8dp"/>
 
-                <!-- CENA -->
-                <TextView
-                    android:id="@+id/txtCena"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cena"
-                    android:textColor="@color/black80text"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginBottom="8dp"/>
+                    <ImageView
+                        android:id="@+id/imgComida"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/recipe_error"
+                        android:scaleType="centerCrop"
+                        android:layout_marginBottom="16dp"/>
 
-                <ImageView
-                    android:id="@+id/imgCena"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/recipe_error"
-                    android:scaleType="centerCrop" />
-            </LinearLayout>
-        </ScrollView>
+                    <!-- CENA -->
+                    <TextView
+                        android:id="@+id/txtCena"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cena"
+                        android:textColor="@color/black80text"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <ImageView
+                        android:id="@+id/imgCena"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/recipe_error"
+                        android:scaleType="centerCrop" />
+
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

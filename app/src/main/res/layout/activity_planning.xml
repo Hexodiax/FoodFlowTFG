@@ -127,10 +127,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="Agregar planning"
-        android:src="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white"
+        android:src="@drawable/ic_plus"
         app:backgroundTint="@color/primary_color" />
 
 

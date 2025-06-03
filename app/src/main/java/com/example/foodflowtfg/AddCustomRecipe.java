@@ -43,7 +43,7 @@ public class AddCustomRecipe extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_agregar_receta_personalizada);
+        setContentView(R.layout.activity_add_personalized_recipe);
 
         mAuth = FirebaseAuth.getInstance();
 

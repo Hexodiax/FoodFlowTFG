@@ -12,21 +12,21 @@ import java.util.List;
 
 public class RecipesGridAdapter extends BaseAdapter {
     private Context context;
-    private List<Receta> recetas;
+    private List<Recipe> recipes;
 
-    public RecipesGridAdapter(Context context, List<Receta> recetas) {
+    public RecipesGridAdapter(Context context, List<Recipe> recipes) {
         this.context = context;
-        this.recetas = recetas;
+        this.recipes = recipes;
     }
 
     @Override
     public int getCount() {
-        return recetas.size();
+        return recipes.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return recetas.get(position);
+        return recipes.get(position);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RecipesGridAdapter extends BaseAdapter {
 
         ImageView imageView = convertView.findViewById(R.id.imageRecipe);
         Glide.with(context)
-                .load(recetas.get(position).getImagenUrl())
+                .load(recipes.get(position).getImagenUrl())
                 .placeholder(R.drawable.recipe_placeholder)
                 .error(R.drawable.recipe_error)
                 .into(imageView);

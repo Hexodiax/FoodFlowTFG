@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class TodayPlanFragment extends Fragment {
 
-    private TextView txtComida, txtCena;
+    private TextView txtComida, txtCena, tvDayOfWeek;
     private ImageView imgComida, imgCena;
 
     @Nullable
@@ -41,11 +41,12 @@ public class TodayPlanFragment extends Fragment {
         txtCena = view.findViewById(R.id.txtCena);
         imgComida = view.findViewById(R.id.imgComida);
         imgCena = view.findViewById(R.id.imgCena);
+        tvDayOfWeek = view.findViewById(R.id.tvDayOfWeek);
     }
 
     private void resetViews() {
-        txtComida.setText("🍝 Comida: No asignada");
-        txtCena.setText("🥗 Cena: No asignada");
+        txtComida.setText("🍝 Comida 🍝");
+        txtCena.setText("🥗 Cena 🥗");
         imgComida.setImageResource(R.drawable.recipe_placeholder);
         imgCena.setImageResource(R.drawable.recipe_placeholder);
     }
@@ -61,6 +62,9 @@ public class TodayPlanFragment extends Fragment {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+            String capitalizedDay = diaPlan.substring(0,1).toUpperCase() + diaPlan.substring(1).toLowerCase();
+            tvDayOfWeek.setText(capitalizedDay);
+
             db.collection("plannings")
                     .whereEqualTo("userId", userId)
                     .whereEqualTo("nombre", nombrePlan)
@@ -71,8 +75,8 @@ public class TodayPlanFragment extends Fragment {
                             DocumentSnapshot plan = querySnapshot.getDocuments().get(0);
                             Map<String, Object> diaData = (Map<String, Object>) plan.get(diaPlan);
                             if (diaData != null) {
-                                processMeal(diaData.get("comida"), txtComida, imgComida, "🍝 Comida: ");
-                                processMeal(diaData.get("cena"), txtCena, imgCena, "🥗 Cena: ");
+                                processMeal(diaData.get("comida"), txtComida, imgComida, "🍝 Comida 🍝");
+                                processMeal(diaData.get("cena"), txtCena, imgCena, "🥗 Cena 🥗");
                             }
                         }
                     })
@@ -86,7 +90,7 @@ public class TodayPlanFragment extends Fragment {
             String nombre = (String) meal.get("nombre");
             String id = (String) meal.get("id");
 
-            textView.setText(prefix + (nombre != null ? nombre : "No asignada"));
+            textView.setText(prefix +"\n" + (nombre != null ? nombre : "No asignada"));
             if (id != null && !id.isEmpty()) {
                 loadRecipeImage(id, imageView);
             } else {

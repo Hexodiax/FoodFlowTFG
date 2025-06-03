@@ -55,7 +55,7 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            tab.setText(position == 0 ? "Hoy" : "Semana");
+            tab.setText(position == 0 ? "Día" : "Semana");
         }).attach();
     }
 

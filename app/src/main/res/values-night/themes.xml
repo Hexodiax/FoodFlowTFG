@@ -1,7 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.FoodFlowTFG" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Theme.FoodFlowTFG" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Barra de estado -->
+        <item name="android:statusBarColor">@android:color/black</item>
+        <!-- Iconos claros -->
+        <item name="android:windowLightStatusBar">false</item>
+
     </style>
 </resources>

@@ -1,6 +1,6 @@
 package com.example.foodflowtfg;
 
-public class Receta {
+public class Recipe {
     private String id;
     private String nombre;
     private String imagenUrl;
@@ -8,7 +8,7 @@ public class Receta {
     private String pasos;
 
     // Constructor vacío (obligatorio para Firestore)
-    public Receta() {}
+    public Recipe() {}
 
     // Getters
     public String getNombre() { return nombre; }

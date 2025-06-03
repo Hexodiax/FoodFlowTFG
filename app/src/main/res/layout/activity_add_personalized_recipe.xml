@@ -44,12 +44,16 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de la receta">
+                    android:hint="Nombre de la recipe"
+                    app:boxStrokeColor="@android:color/black"
+                    app:hintTextColor="@android:color/black"
+                    android:textColor="@android:color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextNombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,12 +62,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:hint="Ingredientes">
+                    android:hint="Ingredientes"
+                    app:boxStrokeColor="@android:color/black"
+                    app:hintTextColor="@android:color/black"
+                    android:textColor="@android:color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextIngredientes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:inputType="textMultiLine"
                         android:minLines="4"
                         android:gravity="top" />
@@ -74,12 +82,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:hint="Pasos">
+                    android:hint="Pasos"
+                    app:boxStrokeColor="@android:color/black"
+                    app:hintTextColor="@android:color/black"
+                    android:textColor="@android:color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextPasos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        app:boxStrokeColor="@android:color/black"
+                        app:hintTextColor="@android:color/black"
                         android:inputType="textMultiLine"
                         android:minLines="4"
                         android:gravity="top" />
@@ -110,7 +124,8 @@
                         android:layout_weight="1"
                         android:layout_marginEnd="4dp"
                         android:text="Tomar Foto"
-                        app:icon="@drawable/ic_delete"
+                        app:icon="@drawable/ic_camera"
+                        app:iconTint="@color/white"
                         app:iconPadding="8dp"
                         app:cornerRadius="12dp"
                         app:backgroundTint="@color/gray_600"
@@ -123,14 +138,15 @@
                         android:layout_weight="1"
                         android:layout_marginStart="4dp"
                         android:text="Galería"
-                        app:icon="@drawable/ic_delete"
+                        app:icon="@drawable/ic_gallery"
+                        app:iconTint="@color/white"
                         app:iconPadding="8dp"
                         app:cornerRadius="12dp"
                         app:backgroundTint="@color/gray_600"
                         android:textColor="@color/white" />
                 </LinearLayout>
 
-                <!-- Botón guardar receta -->
+                <!-- Botón guardar recipe -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnGuardar"
                     android:layout_width="match_parent"
@@ -139,7 +155,7 @@
                     android:text="Guardar Receta"
                     app:cornerRadius="12dp"
                     android:textColor="@color/white"
-                    app:backgroundTint="@color/primary_color" />
+                    app:backgroundTint="@android:color/holo_green_dark" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

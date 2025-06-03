@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +29,7 @@ public class MainpageActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 100;
 
     private MaterialCardView cardPlanning, cardRecetas, cardCocineroIA, cardSettings;
-    private ImageButton btnLogout;
+    private ImageView btnLogout;
     private TextView tvTitle;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -101,7 +105,14 @@ public class MainpageActivity extends AppCompatActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String userName = documentSnapshot.getString("name");
-                            tvTitle.setText("Bienvenido, " + userName + " 👨‍🍳");
+                            String fullText = "Bienvenido, " + userName + " 👨‍🍳";
+                            SpannableString spannable = new SpannableString(fullText);
+                            //Poner el userName en rojo
+                            int start = fullText.indexOf(userName);
+                            int end = start + userName.length();
+                            int primaryColor = ContextCompat.getColor(this, R.color.primary_color);
+                            spannable.setSpan(new ForegroundColorSpan(primaryColor), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            tvTitle.setText(spannable);
                         }
                     })
                     .addOnFailureListener(e -> {

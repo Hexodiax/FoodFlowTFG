@@ -115,8 +115,6 @@ public class CreatePlanningActivity extends AppCompatActivity {
         planningData.put("nombre", nombrePlanning);
         planningData.put("diasCompletados", new HashMap<String, Boolean>());
 
-        planningData.put("diasCompletados", new HashMap<String, Boolean>());
-
         for (String dia : dias) {
             Map<String, Object> comidasDia = new HashMap<>();
             Map<String, Map<String, String>> tipoMap = planningMap.get(dia);

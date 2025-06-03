@@ -22,7 +22,7 @@ import java.util.List;
 public class YourRecipesFragment extends Fragment {
 
     private FirebaseFirestore db;
-    private List<Receta> listaRecetas;
+    private List<Recipe> listaRecipes;
     private RecipesGridAdapter adapter;
 
 
@@ -34,8 +34,8 @@ public class YourRecipesFragment extends Fragment {
         GridView gridView = view.findViewById(R.id.gridViewRecipes);
 
         db = FirebaseFirestore.getInstance();
-        listaRecetas = new ArrayList<>();
-        adapter = new RecipesGridAdapter(requireContext(), listaRecetas);
+        listaRecipes = new ArrayList<>();
+        adapter = new RecipesGridAdapter(requireContext(), listaRecipes);
         gridView.setAdapter(adapter);
 
         String userIdActual = FirebaseAuth.getInstance().getCurrentUser().getUid(); // 🔑 Usuario actual
@@ -45,10 +45,10 @@ public class YourRecipesFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        listaRecetas.clear();
+                        listaRecipes.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Receta receta = document.toObject(Receta.class);
-                            listaRecetas.add(receta);
+                            Recipe recipe = document.toObject(Recipe.class);
+                            listaRecipes.add(recipe);
                         }
                         adapter.notifyDataSetChanged();
                     } else {
@@ -57,13 +57,13 @@ public class YourRecipesFragment extends Fragment {
                 });
 
         gridView.setOnItemClickListener((parent, view1, position, id) -> {
-            Receta recetaSeleccionada = listaRecetas.get(position);
+            Recipe recipeSeleccionada = listaRecipes.get(position);
 
             Intent intent = new Intent(requireContext(), RecipeDetailActivity.class);
-            intent.putExtra("name", recetaSeleccionada.getNombre());
-            intent.putExtra("ingredients", recetaSeleccionada.getIngredientes());
-            intent.putExtra("steps", recetaSeleccionada.getPasos());
-            intent.putExtra("imageUrl", recetaSeleccionada.getImagenUrl());
+            intent.putExtra("name", recipeSeleccionada.getNombre());
+            intent.putExtra("ingredients", recipeSeleccionada.getIngredientes());
+            intent.putExtra("steps", recipeSeleccionada.getPasos());
+            intent.putExtra("imageUrl", recipeSeleccionada.getImagenUrl());
             startActivity(intent);
         });
 
