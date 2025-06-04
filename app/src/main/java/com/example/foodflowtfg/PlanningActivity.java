@@ -20,7 +20,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class PlanningActivity extends AppCompatActivity {
 
@@ -89,10 +91,11 @@ public class PlanningActivity extends AppCompatActivity {
         setComidaConFormato(dinnerText, "🥗", "Cena", "Texto de la cena");
 
         actualizarTextoPlanningActual(new Date());
-
+        cargarComidasDelDia();
         findViewById(R.id.currentPlanningCard).setOnClickListener(view -> {
             Intent intent = new Intent(PlanningActivity.this, CurrentPlanDetailActivity.class);
-            intent.putExtra("plan_day", diaPlanningActual.getText().toString());
+            String diaParaCodigo = normalizarDiaSemana(diaPlanningActual.getText().toString());
+            intent.putExtra("plan_day", diaParaCodigo);
             intent.putExtra("Plan_actual", nombrePlanningActual.getText().toString());
             startActivity(intent);
         });
@@ -110,6 +113,21 @@ public class PlanningActivity extends AppCompatActivity {
                 .setPositiveButton("Eliminar", (d, w) -> procesarEliminacion(nombrePlanning))
                 .setNegativeButton("Cancelar", null)
                 .show();
+    }
+    private String normalizarDiaSemana(String diaConTilde) {
+        return diaConTilde
+                .replace("á", "a")
+                .replace("é", "e")
+                .replace("í", "i")
+                .replace("ó", "o")
+                .replace("ú", "u")
+                .replace("Á", "A")
+                .replace("É", "E")
+                .replace("Í", "I")
+                .replace("Ó", "O")
+                .replace("Ú", "U")
+                .replace("ñ", "n")
+                .replace("Ñ", "N");
     }
 
     private void procesarEliminacion(String nombrePlanning) {
@@ -200,6 +218,62 @@ public class PlanningActivity extends AppCompatActivity {
 
         textView.setText(spannable);
     }
+    private void cargarComidasDelDia() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String nombrePlan = prefs.getString(KEY_PLAN_ACTUAL, "Plan Actual");
+
+        // Usamos el texto ya mostrado en pantalla como día (ej: "Lunes", "Martes")
+        final String diaSemana = normalizarDiaSemana(diaPlanningActual.getText().toString());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("plannings")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("nombre", nombrePlan)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            Object datosDia = doc.get(diaSemana);
+                            if (datosDia instanceof Map) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> comidas = (Map<String, Object>) datosDia;
+
+                                Object comidaObj = comidas.get("comida");
+                                String nombreComida = "No disponible";
+                                if (comidaObj instanceof Map) {
+                                    Map<String, Object> comidaMap = (Map<String, Object>) comidaObj;
+                                    Object nombre = comidaMap.get("nombre");
+                                    if (nombre != null) {
+                                        nombreComida = nombre.toString();
+                                    }
+                                }
+
+                                Object cenaObj = comidas.get("cena");
+                                String nombreCena = "No disponible";
+                                if (cenaObj instanceof Map) {
+                                    Map<String, Object> cenaMap = (Map<String, Object>) cenaObj;
+                                    Object nombre = cenaMap.get("nombre");
+                                    if (nombre != null) {
+                                        nombreCena = nombre.toString();
+                                    }
+                                }
+
+                                setComidaConFormato(findViewById(R.id.lunchText), "🍝", "Comida", nombreComida);
+                                setComidaConFormato(findViewById(R.id.dinnerText), "🥗", "Cena", nombreCena);
+                            } else {
+                                Log.e("Firestore", "El campo del día no es un mapa válido: " + datosDia);
+                            }
+
+
+
+                        }
+                    } else {
+                        Log.e("Firestore", "No se encontró el documento con nombre: " + nombrePlan);
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("Firestore", "Error al obtener comidas del día", e));
+    }
+
 
     @Override
     protected void onResume() {

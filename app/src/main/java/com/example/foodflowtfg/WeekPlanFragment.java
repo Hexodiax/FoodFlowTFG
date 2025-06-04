@@ -46,10 +46,10 @@ public class WeekPlanFragment extends Fragment {
 
         setupDayButton(view, R.id.btnMonday, "Lunes");
         setupDayButton(view, R.id.btnTuesday, "Martes");
-        setupDayButton(view, R.id.btnWednesday, "Miércoles");
+        setupDayButton(view, R.id.btnWednesday, "Miercoles");
         setupDayButton(view, R.id.btnThursday, "Jueves");
         setupDayButton(view, R.id.btnFriday, "Viernes");
-        setupDayButton(view, R.id.btnSaturday, "Sábado");
+        setupDayButton(view, R.id.btnSaturday, "Sabado");
         setupDayButton(view, R.id.btnSunday, "Domingo");
     }
 
