@@ -73,7 +73,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/comida_Lunes"
@@ -88,14 +90,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/cena_Lunes"
@@ -110,7 +116,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -133,7 +141,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/comida_Martes"
@@ -148,14 +158,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/cena_Martes"
@@ -170,7 +184,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -193,7 +209,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/comida_Miercoles"
@@ -208,14 +226,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/cena_Miercoles"
@@ -230,7 +252,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -253,7 +277,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/comida_Jueves"
@@ -268,14 +294,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/cena_Jueves"
@@ -290,7 +320,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -313,7 +345,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/comida_Viernes"
@@ -328,14 +362,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/cena_Viernes"
@@ -350,7 +388,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -373,7 +413,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/comida_Sabado"
@@ -388,14 +430,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/cena_Sabado"
@@ -410,7 +456,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -433,7 +481,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/comida_Domingo"
@@ -448,14 +498,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp"
+                        android:background="#EFEFEF"
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/cena_Domingo"
@@ -470,7 +524,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cambiar"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="@color/primary_color"
+                            android:textColor="@color/primary_color"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -481,7 +537,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Guardar Cambios"
-                    app:backgroundTint="@android:color/holo_green_dark"
+                    app:backgroundTint="@color/green_completed"
                     android:textColor="@android:color/white"
                     app:cornerRadius="12dp" />
             </LinearLayout>

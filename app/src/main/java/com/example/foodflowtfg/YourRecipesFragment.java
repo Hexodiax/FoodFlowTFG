@@ -1,14 +1,18 @@
 package com.example.foodflowtfg;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -94,17 +98,24 @@ public class YourRecipesFragment extends Fragment {
     private void mostrarMenuOpciones(int position) {
         CharSequence[] options = {"Editar Receta", "Eliminar Receta", "Cancelar"};
 
-        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                .setTitle("Opciones")
+        TextView customTitle = new TextView(requireContext());
+        customTitle.setText("Opciones");
+        customTitle.setPadding(50, 40, 50, 40);
+        customTitle.setTextSize(22);
+        customTitle.setTypeface(null, Typeface.BOLD);
+        customTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary_color));
+
+        new AlertDialog.Builder(requireContext())
+                .setCustomTitle(customTitle)
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
-                        case 0: // Editar
+                        case 0:
                             editarReceta(position);
                             break;
-                        case 1: // Eliminar
+                        case 1:
                             confirmarEliminacion(position);
                             break;
-                        case 2: // Cancelar
+                        case 2:
                             dialog.dismiss();
                             break;
                     }
