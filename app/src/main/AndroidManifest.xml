@@ -26,6 +26,8 @@
         <activity
             android:name=".CreatePlanningActivity"
             android:exported="false" />
+        <activity android:name=".EditPlanningActivity"
+            android:exported="false" />
         <activity
             android:name=".CurrentPlanDetailActivity"
             android:exported="false" /> <!-- FileProvider para usar la cámara -->

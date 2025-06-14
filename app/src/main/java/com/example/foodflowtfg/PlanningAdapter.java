@@ -1,5 +1,4 @@
 package com.example.foodflowtfg;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +8,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodflowtfg.R;
+
 import java.util.List;
 
 public class PlanningAdapter extends RecyclerView.Adapter<PlanningAdapter.PlanningViewHolder> {
 
-    private final List<String> planningList;
+    public static class PlanningItem {
+        public String id;
+        public String name;
+
+        public PlanningItem(String id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+
+    private final List<PlanningItem> planningList;
     private final PlanningListener listener;
 
     public interface PlanningListener {
-        void onEditClick(String planningName);
-        void onUseClick(String planningName);
-        void onDeleteClick(String planningName);
+        void onEditClick(String planningId, String planningName);
+        void onUseClick(String planningId, String planningName);
+        void onDeleteClick(String planningId, String planningName);
     }
 
-    public PlanningAdapter(List<String> planningList, PlanningListener listener) {
+    public PlanningAdapter(List<PlanningItem> planningList, PlanningListener listener) {
         this.planningList = planningList;
         this.listener = listener;
     }
@@ -37,12 +48,15 @@ public class PlanningAdapter extends RecyclerView.Adapter<PlanningAdapter.Planni
 
     @Override
     public void onBindViewHolder(@NonNull PlanningViewHolder holder, int position) {
-        String name = planningList.get(position);
-        holder.planningName.setText(name);
+        PlanningItem item = planningList.get(position);
+        holder.planningName.setText(item.name);
 
-        holder.btnEdit.setOnClickListener(v -> listener.onEditClick(name));
-        holder.btnUse.setOnClickListener(v -> listener.onUseClick(name));
-        holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(name));
+        holder.btnEdit.setOnClickListener(v ->
+                listener.onEditClick(item.id, item.name));
+        holder.btnUse.setOnClickListener(v ->
+                listener.onUseClick(item.id, item.name));
+        holder.btnDelete.setOnClickListener(v ->
+                listener.onDeleteClick(item.id, item.name));
     }
 
     @Override
