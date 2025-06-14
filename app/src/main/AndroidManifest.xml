@@ -21,6 +21,9 @@
             android:name=".SelectRecipeActivity"
             android:exported="false" />
         <activity
+            android:name=".EditCustomRecipeActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreatePlanningActivity"
             android:exported="false" />
         <activity
