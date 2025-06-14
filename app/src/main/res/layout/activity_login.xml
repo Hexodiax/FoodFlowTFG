@@ -68,7 +68,9 @@
                 app:boxBackgroundMode="outline"
                 app:boxBackgroundColor="@color/white"
                 app:shapeAppearanceOverlay="@style/RoundedTextInputLayout"
-                app:startIconTint="@color/primary_color">
+                app:boxStrokeColor="@android:color/black"
+                app:hintTextColor="@android:color/black"
+                android:textColor="@android:color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
@@ -88,7 +90,9 @@
                 app:boxBackgroundColor="@color/white"
                 app:shapeAppearanceOverlay="@style/RoundedTextInputLayout"
                 app:endIconMode="password_toggle"
-                app:startIconTint="@color/primary_color">
+                app:boxStrokeColor="@android:color/black"
+                app:hintTextColor="@android:color/black"
+                android:textColor="@android:color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
