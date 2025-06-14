@@ -42,7 +42,6 @@ public class EditCustomRecipeActivity extends AppCompatActivity {
         imagePreview = findViewById(R.id.imagePreview);
         Button btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen);
         Button btnGuardar = findViewById(R.id.btnGuardar);
-        Button btnCancelar = findViewById(R.id.btnCancelar);
 
         // Obtener datos de la receta del Intent
         Intent intent = getIntent();
@@ -68,7 +67,6 @@ public class EditCustomRecipeActivity extends AppCompatActivity {
         // Listeners de los botones
         btnSeleccionarImagen.setOnClickListener(v -> abrirGaleria());
         btnGuardar.setOnClickListener(v -> guardarCambios());
-        btnCancelar.setOnClickListener(v -> finish());
 
         // Configurar botón de eliminar si es necesario
         Button btnEliminar = findViewById(R.id.btnEliminar);

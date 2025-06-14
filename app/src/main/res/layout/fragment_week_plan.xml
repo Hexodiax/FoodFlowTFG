@@ -24,111 +24,251 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:gravity="top"
             android:padding="16dp">
 
-            <Button
-                android:id="@+id/btnMonday"
+            <!-- Lunes -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Lunes"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:backgroundTint="#FF6F61"
-                android:layout_marginBottom="8dp"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:padding="12dp"/>
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="18dp"
+                android:gravity="center_vertical">
 
-            <Button
-                android:id="@+id/btnTuesday"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Martes"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:backgroundTint="#6B5B95"
-                android:layout_marginBottom="8dp"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:padding="12dp" />
+                <Button
+                    android:id="@+id/btnMonday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="Lunes"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:backgroundTint="#FF6F61"
+                    android:elevation="4dp"
+                    android:stateListAnimator="@null"
+                    android:padding="8dp"
+                    android:minHeight="64dp"
+                    />
 
-            <Button
-                android:id="@+id/btnWednesday"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Miércoles"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:backgroundTint="#88B04B"
-                android:layout_marginBottom="8dp"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:padding="12dp" />
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/statusMonday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:text=""
+                    android:padding="8dp"
+                    android:minHeight="64dp"
+                    />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/btnThursday"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Jueves"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:backgroundTint="#F7CAC9"
-                android:layout_marginBottom="8dp"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:padding="12dp" />
 
-            <Button
-                android:id="@+id/btnFriday"
+            <!-- Martes -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Viernes"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:backgroundTint="#92A8D1"
-                android:layout_marginBottom="8dp"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:padding="12dp" />
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="18dp">
 
-            <Button
-                android:id="@+id/btnSaturday"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Sábado"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:backgroundTint="#955251"
-                android:layout_marginBottom="8dp"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:padding="12dp" />
+                <Button
+                    android:id="@+id/btnTuesday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Martes"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:backgroundTint="#6B5B95"
+                    android:elevation="4dp"
+                    android:stateListAnimator="@null"
+                    android:padding="8dp" />
 
-            <Button
-                android:id="@+id/btnSunday"
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/statusTuesday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:text=""
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Miércoles -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Domingo"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                android:backgroundTint="#B565A7"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:padding="12dp" />
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="18dp">
+
+                <Button
+                    android:id="@+id/btnWednesday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Miércoles"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:backgroundTint="#88B04B"
+                    android:elevation="4dp"
+                    android:stateListAnimator="@null"
+                    android:padding="8dp" />
+
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/statusWednesday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:text=""
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Jueves -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="18dp">
+
+                <Button
+                    android:id="@+id/btnThursday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Jueves"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:backgroundTint="#F7CAC9"
+                    android:elevation="4dp"
+                    android:stateListAnimator="@null"
+                    android:padding="8dp" />
+
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/statusThursday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:text=""
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Viernes -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="18dp">
+
+                <Button
+                    android:id="@+id/btnFriday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Viernes"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:backgroundTint="#92A8D1"
+                    android:elevation="4dp"
+                    android:stateListAnimator="@null"
+                    android:padding="8dp" />
+
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/statusFriday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:text=""
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Sábado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="18dp">
+
+                <Button
+                    android:id="@+id/btnSaturday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Sábado"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:backgroundTint="#955251"
+                    android:elevation="4dp"
+                    android:stateListAnimator="@null"
+                    android:padding="8dp" />
+
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/statusSaturday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:text=""
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Domingo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnSunday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:text="Domingo"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:backgroundTint="#B565A7"
+                    android:elevation="4dp"
+                    android:stateListAnimator="@null"
+                    android:padding="8dp" />
+
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/statusSunday"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:text=""
+                    android:padding="8dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

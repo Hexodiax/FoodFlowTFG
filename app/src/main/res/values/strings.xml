@@ -13,8 +13,7 @@
     <string name="full_name">Nombre Completo</string>
     <string name="confirm_password">Confirmar Contraseña</string>
     <string name="already_have_account">¿Ya tienes una cuenta?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="recipe_image">Imagen de la receta</string>
     <string name="cambiar_imagen">Cambiar imagen</string>
     <string name="nombre_receta">Nombre de la receta</string>
@@ -22,5 +21,5 @@
     <string name="pasos_preparacion">Pasos de preparación</string>
     <string name="eliminar">Eliminar</string>
     <string name="cancelar">Cancelar</string>
-    <string name="guardar">Guardar cambios</string>
+    <string name="guardar">Guardar</string>
 </resources>
