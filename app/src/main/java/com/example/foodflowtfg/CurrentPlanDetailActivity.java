@@ -1,4 +1,3 @@
-// CurrentPlanDetailActivity.java
 package com.example.foodflowtfg;
 
 import android.app.AlertDialog;
@@ -10,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,6 +36,10 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
     private static final String GEMINI_API_KEY = "AIzaSyA6c2dNuktVNNLZ0wA0G0o6cUhQyTIBHt4";
     private static final String TAG = "CurrentPlanDetail";
 
+    // Contadores
+    private int contadorCompletados = 0;
+    private int contadorRegistrados = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,28 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             tab.setText(position == 0 ? "Día" : "Semana");
         }).attach();
+
+        cargarContadoresIniciales();
+    }
+
+    private void cargarContadoresIniciales() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("plannings")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("nombre", nombrePlan)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        Long registrados = querySnapshot.getDocuments().get(0).getLong("contadorRegistrados");
+                        Long completados = querySnapshot.getDocuments().get(0).getLong("contadorCompletados");
+
+                        contadorRegistrados = registrados != null ? registrados.intValue() : 0;
+                        contadorCompletados = completados != null ? completados.intValue() : 0;
+                    }
+                });
     }
 
     @Override
@@ -67,59 +93,15 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
 
     public void mostrarDialogoCompletarDia(String dia) {
         new AlertDialog.Builder(this)
-                .setTitle("¿Completaste este día?")
-                .setMessage("Selecciona una opción para el día " + dia)
-                .setPositiveButton("Sí, completado", (dialog, which) -> marcarDiaCompletado(dia))
-                .setNegativeButton("No completado", (dialog, which) -> mostrarDialogoNoCompletado(dia))
+                .setTitle("Registrar día")
+                .setMessage("¿Cómo completaste el día " + dia + "?")
+                .setPositiveButton("Completado", (dialog, which) -> registrarDia(dia, true))
+                .setNegativeButton("No completado", (dialog, which) -> registrarDia(dia, false))
                 .setNeutralButton("Cancelar", null)
                 .show();
     }
 
-    private void mostrarDialogoNoCompletado(String dia) {
-        new AlertDialog.Builder(this)
-                .setTitle("¿No completaste este día?")
-                .setMessage("¿Quieres un mensaje de motivación para mañana?")
-                .setPositiveButton("Sí", (dialog, which) -> generarMensajeMotivacion(dia))
-                .setNegativeButton("No", (dialog, which) -> {
-                    Toast.makeText(this, "Mañana es otra oportunidad. ¡Tú puedes!", Toast.LENGTH_SHORT).show();
-                })
-                .show();
-    }
-
-    private void generarMensajeMotivacion(String dia) {
-        new Thread(() -> {
-            try {
-                String prompt = "Genera un mensaje motivador de 20-30 palabras para animar a alguien que no completó su plan de alimentación hoy. " +
-                        "Usa un tono positivo y 2 emojis. Ejemplo: 'No te rindas, mañana es nueva oportunidad para cuidarte 🌟 " +
-                        "Cada día cuenta, ¡tú puedes! 💪'";
-
-                String mensaje = obtenerRespuestaGemini(prompt);
-
-                runOnUiThread(() -> {
-                    if (mensaje != null && !mensaje.isEmpty()) {
-                        NotificationHelper.showNotification(this, "¡Ánimo!", mensaje);
-                    } else {
-                        mostrarMensajeFallbackMotivacion();
-                    }
-                });
-            } catch (Exception e) {
-                Log.e(TAG, "Error al generar mensaje motivador", e);
-                runOnUiThread(this::mostrarMensajeFallbackMotivacion);
-            }
-        }).start();
-    }
-
-    private void mostrarMensajeFallbackMotivacion() {
-        String[] mensajes = {
-                "Mañana es un nuevo día para cuidarte 🌟 ¡Tú puedes lograrlo! 💪",
-                "No te desanimes, cada día es una nueva oportunidad 🌱 ¡Sigue adelante! ✨",
-                "Pequeños pasos llevan a grandes resultados 🏆 ¡Mañana será mejor! 🌞"
-        };
-        String mensaje = mensajes[(int)(Math.random() * mensajes.length)];
-        NotificationHelper.showNotification(this, "¡Ánimo!", mensaje);
-    }
-
-    private void marcarDiaCompletado(String dia) {
+    private void registrarDia(String dia, boolean completado) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String fechaActual = obtenerFechaActual();
@@ -133,159 +115,172 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
                     if (!querySnapshot.isEmpty()) {
                         String docId = querySnapshot.getDocuments().get(0).getId();
                         Map<String, Object> updates = new HashMap<>();
-                        updates.put("diasCompletados." + dia, true);
+
+                        // Actualizar estado del día y fecha
+                        updates.put("diasCompletados." + dia, completado);
                         updates.put("ultimaFechaCompletado." + dia, fechaActual);
+
+                        // Actualizar contadores
+                        updates.put("contadorRegistrados", FieldValue.increment(1));
+                        if (completado) {
+                            updates.put("contadorCompletados", FieldValue.increment(1));
+                        }
 
                         db.collection("plannings").document(docId)
                                 .update(updates)
                                 .addOnSuccessListener(aVoid -> {
-                                    obtenerConteoDiasCompletados(docId, dia);
-                                    verificarSemanaCompleta(docId);
+                                    // Actualizar UI
+                                    actualizarEstadoDiaEnUI(dia, completado);
+
+                                    // Actualizar contadores locales
+                                    if (completado) {
+                                        contadorCompletados++;
+                                    }
+                                    contadorRegistrados++;
+
+                                    // Mostrar notificación del día
+                                    mostrarNotificacionDiaria(dia, completado);
+
+                                    // Verificar fin de semana
+                                    verificarFinDeSemana(docId);
                                 });
                     }
                 });
     }
 
-    private void verificarSemanaCompleta(String docId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private void mostrarNotificacionDiaria(String dia, boolean completado) {
+        String titulo = completado ?
+                String.format(Locale.getDefault(), "%s completado (%d/7)", dia, contadorCompletados) :
+                String.format(Locale.getDefault(), "%s no completado (%d/7)", dia, contadorCompletados);
 
-        db.collection("plannings").document(docId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        Map<String, Boolean> diasCompletados = (Map<String, Boolean>) documentSnapshot.get("diasCompletados");
-                        Map<String, String> fechasCompletado = (Map<String, String>) documentSnapshot.get("ultimaFechaCompletado");
+        new Thread(() -> {
+            try {
+                String prompt = completado ?
+                        String.format(Locale.getDefault(),
+                                "Genera un mensaje positivo de 15 palabras para celebrar completar el día %s (%d/7). Usa 1 emoji.",
+                                dia, contadorCompletados) :
+                        String.format(Locale.getDefault(),
+                                "Genera un mensaje motivacional de 15 palabras para animar después de no completar el día %s (%d/7). Usa 1 emoji.",
+                                dia, contadorCompletados);
 
-                        int contador = 0;
-                        for (Map.Entry<String, Boolean> entry : diasCompletados.entrySet()) {
-                            if (entry.getValue()) {
-                                String fechaCompletado = fechasCompletado != null ? fechasCompletado.get(entry.getKey()) : null;
-                                if (fechaCompletado != null && esDeEstaSemana(fechaCompletado)) {
-                                    contador++;
-                                }
-                            }
-                        }
+                String mensaje = obtenerRespuestaGemini(prompt);
 
-                        if (contador == 7) {
-                            generarMensajeSemanaCompleta();
-                            reiniciarContadorSemanal(docId);
-                        }
-                    }
+                runOnUiThread(() -> {
+                    NotificationHelper.showNotification(
+                            this,
+                            titulo,
+                            mensaje != null ? mensaje :
+                                    (completado ?
+                                            String.format("¡Buen trabajo! %s completado (%d/7)", dia, contadorCompletados) :
+                                            String.format("No te preocupes. %s no completado (%d/7)", dia, contadorCompletados))
+                    );
                 });
+            } catch (Exception e) {
+                Log.e(TAG, "Error al generar notificación diaria", e);
+                runOnUiThread(() -> {
+                    NotificationHelper.showNotification(
+                            this,
+                            titulo,
+                            completado ?
+                                    String.format("¡Día %s completado! Progreso: %d/7", dia, contadorCompletados) :
+                                    String.format("%s no completado. Vas %d/7", dia, contadorCompletados)
+                    );
+                });
+            }
+        }).start();
     }
 
-    private void reiniciarContadorSemanal(String docId) {
+    private void verificarFinDeSemana(String docId) {
+        if (contadorRegistrados >= 7 || contadorCompletados >= 7) {
+            if (contadorCompletados >= 7) {
+                mostrarNotificacionSemanal(true);
+            } else {
+                mostrarNotificacionSemanal(false);
+            }
+            reiniciarSemana(docId);
+        }
+    }
+
+    private void mostrarNotificacionSemanal(boolean semanaCompleta) {
+        String titulo = semanaCompleta ? "¡Semana completada!" : "Resumen semanal";
+
+        new Thread(() -> {
+            try {
+                String prompt = semanaCompleta ?
+                        "Genera un mensaje celebratorio de 20 palabras con 3 emojis para una semana completada al 100%" :
+                        String.format(Locale.getDefault(),
+                                "Genera un mensaje motivacional de 20 palabras con 2 emojis para animar después de completar %d/7 días esta semana",
+                                contadorCompletados);
+
+                String mensaje = obtenerRespuestaGemini(prompt);
+
+                runOnUiThread(() -> {
+                    NotificationHelper.showNotification(
+                            this,
+                            titulo,
+                            mensaje != null ? mensaje :
+                                    (semanaCompleta ?
+                                            "¡Felicidades! Has completado todos los días esta semana 🎉🌟💯" :
+                                            String.format("Completaste %d/7 días. ¡Sigue así! 💪", contadorCompletados))
+                    );
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "Error al generar notificación semanal", e);
+                runOnUiThread(() -> {
+                    NotificationHelper.showNotification(
+                            this,
+                            titulo,
+                            semanaCompleta ?
+                                    "¡Excelente! Semana completada al 100%" :
+                                    String.format("Resumen: %d/7 días completados", contadorCompletados)
+                    );
+                });
+            }
+        }).start();
+    }
+
+    private void reiniciarSemana(String docId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> updates = new HashMap<>();
 
-        String[] dias = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
-        for (String dia : dias) {
+        // Reiniciar contadores
+        updates.put("contadorRegistrados", 0);
+        updates.put("contadorCompletados", 0);
+
+        // Poner todos los días como no completados
+        String[] diasSemana = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
+        for (String dia : diasSemana) {
             updates.put("diasCompletados." + dia, false);
         }
 
         db.collection("plannings").document(docId)
-                .update(updates);
-    }
+                .update(updates)
+                .addOnSuccessListener(aVoid -> {
+                    // Resetear contadores locales
+                    contadorRegistrados = 0;
+                    contadorCompletados = 0;
 
-    private void generarMensajeSemanaCompleta() {
-        new Thread(() -> {
-            try {
-                String prompt = "Genera un mensaje celebratorio de 30 palabras para alguien que completó toda la semana de plan alimenticio. " +
-                        "Usa 3 emojis y tono motivador. Ejemplo: '¡Increíble disciplina! Semana completada 🎉🏆✨ " +
-                        "Tu esfuerzo vale la pena, ¡sigue así!'";
+                    // Actualizar UI
+                    reiniciarUI();
 
-                String mensaje = obtenerRespuestaGemini(prompt);
-
-                runOnUiThread(() -> {
-                    if (mensaje != null && !mensaje.isEmpty()) {
-                        NotificationHelper.showNotification(this, "¡Semana completada!", mensaje);
-                    } else {
-                        mostrarMensajeFallbackSemanaCompleta();
-                    }
-                });
-
-                guardarLogroSemanal();
-            } catch (Exception e) {
-                Log.e(TAG, "Error al generar mensaje de semana completa", e);
-                runOnUiThread(this::mostrarMensajeFallbackSemanaCompleta);
-            }
-        }).start();
-    }
-
-    private void mostrarMensajeFallbackSemanaCompleta() {
-        String mensaje = "¡Felicidades! Has completado toda la semana 🎉🏆✨";
-        NotificationHelper.showNotification(this, "¡Semana completada!", mensaje);
-    }
-
-    private void guardarLogroSemanal() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String fecha = obtenerFechaActual();
-
-        Map<String, Object> logro = new HashMap<>();
-        logro.put("userId", userId);
-        logro.put("tipo", "semana_completada");
-        logro.put("fecha", fecha);
-        logro.put("plan", nombrePlan);
-
-        db.collection("logros").add(logro);
-    }
-
-    private void obtenerConteoDiasCompletados(String docId, String diaCompletado) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("plannings").document(docId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        Map<String, Boolean> diasCompletados = (Map<String, Boolean>) documentSnapshot.get("diasCompletados");
-                        Map<String, String> fechasCompletado = (Map<String, String>) documentSnapshot.get("ultimaFechaCompletado");
-
-                        int contador = 0;
-                        for (Map.Entry<String, Boolean> entry : diasCompletados.entrySet()) {
-                            if (entry.getValue()) {
-                                String fechaCompletado = fechasCompletado != null ? fechasCompletado.get(entry.getKey()) : null;
-                                if (fechaCompletado != null && esDeEstaSemana(fechaCompletado)) {
-                                    contador++;
-                                }
-                            }
-                        }
-                        generarNotificacionGemini(diaCompletado, contador);
-                    }
+                    Toast.makeText(this, "¡Nueva semana comenzada!", Toast.LENGTH_SHORT).show();
                 });
     }
 
-    private void generarNotificacionGemini(String dia, int diasCompletados) {
-        new Thread(() -> {
-            try {
-                String fecha = obtenerFechaActual();
-                String prompt = "Genera un mensaje positivo de 25-35 palabras celebrando completar el día " + dia +
-                        " (" + fecha + "). Lleva " + diasCompletados + "/7 días. " +
-                        "Usa 2 emojis. Ejemplo: '¡Buen trabajo hoy! (" + fecha + ") 🌟 " +
-                        "Vas " + diasCompletados + "/7 días. ¡Sigue así! 💪'";
-
-                String mensaje = obtenerRespuestaGemini(prompt);
-
-                runOnUiThread(() -> {
-                    if (mensaje != null && !mensaje.isEmpty()) {
-                        String titulo = "¡Día completado!";
-                        NotificationHelper.showNotification(this, titulo, mensaje);
-                    } else {
-                        mostrarMensajeFallbackDiaCompletado(dia, diasCompletados);
-                    }
-                });
-            } catch (Exception e) {
-                Log.e(TAG, "Error al generar notificación", e);
-                runOnUiThread(() -> mostrarMensajeFallbackDiaCompletado(dia, diasCompletados));
-            }
-        }).start();
+    private void actualizarEstadoDiaEnUI(String dia, boolean completado) {
+        WeekPlanFragment weekFragment = (WeekPlanFragment) getSupportFragmentManager()
+                .findFragmentByTag("f" + adapter.getItemId(1));
+        if (weekFragment != null) {
+            weekFragment.actualizarEstadoDia(dia, completado);
+        }
     }
 
-    private void mostrarMensajeFallbackDiaCompletado(String dia, int diasCompletados) {
-        String fecha = obtenerFechaActual();
-        String mensaje = "¡" + dia + " completado! (" + fecha + ")\n" +
-                "Progreso semanal: " + diasCompletados + "/7 días";
-        NotificationHelper.showNotification(this, "¡Día completado!", mensaje);
+    private void reiniciarUI() {
+        WeekPlanFragment weekFragment = (WeekPlanFragment) getSupportFragmentManager()
+                .findFragmentByTag("f" + adapter.getItemId(1));
+        if (weekFragment != null) {
+            weekFragment.reiniciarTodosLosBotones();
+        }
     }
 
     private String obtenerRespuestaGemini(String prompt) throws Exception {
@@ -318,9 +313,7 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
 
             int responseCode = conn.getResponseCode();
             if (responseCode != HttpURLConnection.HTTP_OK) {
-                InputStream errorStream = conn.getErrorStream();
-                String errorResponse = readStream(errorStream);
-                throw new Exception("Error en la API: " + responseCode + " - " + errorResponse);
+                throw new Exception("Error en la API: " + responseCode);
             }
 
             InputStream inputStream = conn.getInputStream();
@@ -351,23 +344,6 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
             response.append(line);
         }
         return response.toString();
-    }
-
-    private boolean esDeEstaSemana(String fecha) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            Date fechaCompletado = sdf.parse(fecha);
-
-            Calendar calCompletado = Calendar.getInstance();
-            calCompletado.setTime(fechaCompletado);
-
-            Calendar calHoy = Calendar.getInstance();
-
-            return calCompletado.get(Calendar.WEEK_OF_YEAR) == calHoy.get(Calendar.WEEK_OF_YEAR)
-                    && calCompletado.get(Calendar.YEAR) == calHoy.get(Calendar.YEAR);
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private String obtenerFechaActual() {
