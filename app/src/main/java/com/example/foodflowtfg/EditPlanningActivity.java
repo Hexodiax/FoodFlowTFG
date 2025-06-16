@@ -2,6 +2,7 @@ package com.example.foodflowtfg;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -129,12 +130,12 @@ public class EditPlanningActivity extends AppCompatActivity {
                 .document(planningId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Planning actualizado", Toast.LENGTH_SHORT).show();
+                    Log.d("PlanningActivity", "Planning actualizado");
                     setResult(RESULT_OK);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al actualizar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("PlanningActivity", "Error al actualizar: " + e.getMessage(), e);
                 });
     }
 }

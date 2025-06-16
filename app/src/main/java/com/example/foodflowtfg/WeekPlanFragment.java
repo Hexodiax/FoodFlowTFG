@@ -85,6 +85,7 @@ public class WeekPlanFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupDayButtons(view);
+        reiniciarTodosLosBotones();
         cargarEstadosDias();
     }
 
@@ -156,8 +157,8 @@ public class WeekPlanFragment extends Fragment {
         for (int statusButtonId : statusButtonIds) {
             Button statusButton = getView().findViewById(statusButtonId);
             if (statusButton != null) {
-                statusButton.setBackgroundTintList(
-                        getResources().getColorStateList(R.color.red));
+                int colorGray = getResources().getColor(R.color.gray);
+                statusButton.setBackgroundColor(colorGray);
             }
         }
     }
@@ -169,11 +170,18 @@ public class WeekPlanFragment extends Fragment {
             Button statusButton = getView().findViewById(statusButtonIds[i]);
             if (statusButton != null) {
                 Boolean completado = diasCompletados.get(diasSemana[i]);
-                int colorRes = (completado != null && completado) ?
-                        R.color.green_completed : R.color.red;
-                statusButton.setBackgroundTintList(
-                        getResources().getColorStateList(colorRes));
+                if (completado == null) {
+                    statusButton.setBackgroundTintList(
+                            getResources().getColorStateList(R.color.gray));
+                } else if (completado) {
+                    statusButton.setBackgroundTintList(
+                            getResources().getColorStateList(R.color.green_completed));
+                } else {
+                    statusButton.setBackgroundTintList(
+                            getResources().getColorStateList(R.color.gray));
+                }
             }
         }
     }
+
 }

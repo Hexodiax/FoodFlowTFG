@@ -134,15 +134,13 @@ public class CreatePlanningActivity extends AppCompatActivity {
         db.collection("plannings")
                 .add(planningData)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Planning guardado", Toast.LENGTH_SHORT).show();
-
+                    Log.d("PlanningActivity", "Planning guardado");
                     generateMotivationalMessage(nombrePlanning);
-
                     setResult(RESULT_OK);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show();
+                    Log.e("PlanningActivity", "Error al guardar", e);
                 });
     }
 

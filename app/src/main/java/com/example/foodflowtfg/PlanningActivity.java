@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -149,7 +148,6 @@ public class PlanningActivity extends AppCompatActivity implements PlanningAdapt
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al cargar el planning", Toast.LENGTH_SHORT).show();
                     Log.e("PlanningActivity", "Error al cargar planning", e);
                 });
     }
@@ -175,7 +173,7 @@ public class PlanningActivity extends AppCompatActivity implements PlanningAdapt
         listaDePlannings.removeIf(item -> item.id.equals(planningId));
         adaptador.notifyDataSetChanged();
 
-        Toast.makeText(this, planningName + " eliminado", Toast.LENGTH_SHORT).show();
+        Log.d("PlanningActivity", planningName + " eliminado");
     }
 
     private void eliminarPlanDeFirestore(String planningId) {
@@ -208,7 +206,6 @@ public class PlanningActivity extends AppCompatActivity implements PlanningAdapt
                         adaptador.notifyDataSetChanged();
                     } else {
                         Log.e("Firestore", "Error al cargar plannings", task.getException());
-                        Toast.makeText(this, "Error al cargar plannings", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

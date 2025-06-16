@@ -155,7 +155,7 @@ public class YourRecipesFragment extends Fragment {
                     listaRecipes.remove(position);
                     recipeIds.remove(position);
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(requireContext(), "Receta eliminada", Toast.LENGTH_SHORT).show();
+                    Log.d("Firestore", "Receta eliminada correctamente");
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error al borrar receta", e);

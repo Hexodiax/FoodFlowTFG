@@ -3,8 +3,8 @@ package com.example.foodflowtfg;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -84,11 +84,9 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         saveUserDataToFirestore(user.getUid(), name, email);
-                        Toast.makeText(RegisterActivity.this, "Registro exitoso, redirigiendo...", Toast.LENGTH_SHORT).show();
+                        Log.d("RegisterActivity", "Registro exitoso, redirigiendo...");
                     } else {
-                        Toast.makeText(RegisterActivity.this,
-                                "Error: " + task.getException().getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        Log.e("RegisterActivity", "Error al registrar usuario: " + task.getException().getMessage());
                     }
 
                 });
@@ -103,13 +101,13 @@ public class RegisterActivity extends AppCompatActivity {
         db.collection("users").document(userId)
                 .set(user)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                    Log.d("RegisterActivity", "Datos del usuario guardados exitosamente en Firestore.");
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     // Si falla Firestore pero Auth sí funcionó
-                    Toast.makeText(this, "Cuenta creada pero error guardando datos adicionales", Toast.LENGTH_LONG).show();
+                    Log.e("RegisterActivity", "Cuenta creada pero error guardando datos adicionales en Firestore: " + e.getMessage());
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     finish();
                 });

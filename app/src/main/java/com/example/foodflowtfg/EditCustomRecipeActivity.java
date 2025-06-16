@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -112,7 +113,7 @@ public class EditCustomRecipeActivity extends AppCompatActivity {
                             )
                     )
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show();
+                        Log.e("EditCustomRecipeActivity", "Error uploading image", e);
                     });
         } else {
             // Mantener la misma imagen
@@ -132,12 +133,12 @@ public class EditCustomRecipeActivity extends AppCompatActivity {
                 .document(recipeId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Receta actualizada correctamente", Toast.LENGTH_SHORT).show();
+                    Log.d("EditCustomRecipeActivity", "Receta actualizada correctamente");
                     setResult(RESULT_OK);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al actualizar la receta", Toast.LENGTH_SHORT).show();
+                    Log.e("EditCustomRecipeActivity", "Error al actualizar la receta", e);
                 });
     }
 
@@ -147,12 +148,12 @@ public class EditCustomRecipeActivity extends AppCompatActivity {
                 .document(recipeId)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Receta eliminada correctamente", Toast.LENGTH_SHORT).show();
+                    Log.d("EditCustomRecipeActivity", "Receta eliminada correctamente");
                     setResult(RESULT_OK);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al eliminar la receta", Toast.LENGTH_SHORT).show();
+                    Log.e("EditCustomRecipeActivity", "Error al eliminar la receta", e);
                 });
     }
 }

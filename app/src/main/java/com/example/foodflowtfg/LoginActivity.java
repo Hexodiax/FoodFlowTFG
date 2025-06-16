@@ -3,9 +3,9 @@ package com.example.foodflowtfg;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -78,13 +78,13 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(LoginActivity.this, "¡Bienvenido!", Toast.LENGTH_SHORT).show();
+                        Log.d("LoginActivity", "Inicio de sesión exitoso");
 
                         // Redirigir a la pantalla principal
                         startActivity(new Intent(LoginActivity.this, MainpageActivity.class));
                         finish(); // Cierra LoginActivity para que no se pueda volver atrás
                     } else {
-                        Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Log.e("LoginActivity", "Error: " + task.getException().getMessage());
                     }
                 });
     }

@@ -263,7 +263,7 @@ public class CurrentPlanDetailActivity extends AppCompatActivity
                     // Actualizar UI
                     reiniciarUI();
 
-                    Toast.makeText(this, "¡Nueva semana comenzada!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "¡Semana completada, a por la siguiente!", Toast.LENGTH_SHORT).show();
                 });
     }
 

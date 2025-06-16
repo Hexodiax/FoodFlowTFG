@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,10 +88,10 @@ public class MainpageActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso concedido (puedes registrar evento, mostrar mensaje, etc.)
+                Log.d("MainpageActivity", "Las notificaciones activadas");
             } else {
                 // Permiso denegado
-                Toast.makeText(this, "Las notificaciones estarán desactivadas", Toast.LENGTH_SHORT).show();
+                Log.d("MainpageActivity", "Las notificaciones estarán desactivadas");
             }
         }
     }
@@ -116,7 +116,7 @@ public class MainpageActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(e -> {
                         tvTitle.setText("Bienvenido, chef 👨‍🍳");
-                        Toast.makeText(this, "Error al cargar datos del usuario", Toast.LENGTH_SHORT).show();
+                        Log.d("MainpageActivity", "Error al cargar datos del usuario: " + e.getMessage());
                     });
         }
     }
@@ -146,7 +146,7 @@ public class MainpageActivity extends AppCompatActivity {
     private void setupLogoutButton() {
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
-            Toast.makeText(this, "Sesión cerrada correctamente", Toast.LENGTH_SHORT).show();
+            Log.d("MainpageActivity", "Sesión cerrada correctamente");
             Intent intent = new Intent(MainpageActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -181,16 +182,16 @@ public class AddCustomRecipe extends AppCompatActivity {
                     // Actualizamos el campo "id" en el mismo documento
                     documentReference.update("id", id)
                             .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Receta guardada correctamente", Toast.LENGTH_SHORT).show();
+                                Log.d("RecipeActivity", "Receta guardada correctamente");
                                 finish();
                             })
                             .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Error al actualizar ID de la receta", Toast.LENGTH_SHORT).show();
+                                Log.e("RecipeActivity", "Error al actualizar ID de la receta", e);
                                 e.printStackTrace();
                             });
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al guardar receta", Toast.LENGTH_SHORT).show();
+                    Log.e("RecipeActivity", "Error al guardar receta");
                     e.printStackTrace();
                 });
     }
